@@ -1,32 +1,25 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# Project: chapter II 
-# Date started: 16-03-2021
-# Date last modified: 13-06-2022
+# Project: methods paper 
+# Date started: 15-11-2021
+# Date last modified: 15-11-2022
 # Author: Simeon Q. Smeele
-# Description: Finds the call within a wave object. Returns the new wave object and optionally 
-# start and end times and envelop. Returned object is a list. 
-# This version includes an option to detect all elements above the threshold. 
-# This version includes the options for two thresholds (e.g. for echos).
-# This version includes an option to correct for echo. 
-# This version returns all start and end times. 
-# This version is fixed for not detections under return_all = T. 
-# This version is a developmental version for single wave detections that better deals with echo. 
+# Description: Detects calls in a wave object with amplitude envelope. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-wave.detec.dev = function(wave, # wave object
-                          threshold = 0.3, # fraction of max of envelope to use as threshold for start/end
-                                           # if vector of two is supplied, the first is used for start
-                                           # and second for end (in case of echo)
-                          msmooth = c(500, 95), # smoothening of envelope
-                          plot_it = F # if T, returns three-panel plot of wave, envelope and spectrogram
+call.detect = function(wave, # wave object
+                       threshold = 0.3, # fraction of max of envelope to use as threshold for start/end
+                       # if vector of two is supplied, the first is used for start
+                       # and second for end (in case of echo)
+                       msmooth = c(500, 95), # smoothening of envelope
+                       plot_it = FALSE # if TRUE, returns three-panel plot of wave, envelope and spectrogram
 ){
   
-  # Envelope
+  # Create envelope
   env = env(wave, msmooth = msmooth, plot = F) 
   env = ( env - min(env) ) / max( env - min(env) )
   duration = length(wave@left)/wave@samp.rate
   
-  ## Find max location
+  # Find max location
   where_max = which(env == 1)
   ## Left loop
   start = NA
@@ -64,10 +57,7 @@ wave.detec.dev = function(wave, # wave object
   }
   
   # Return
-  temp = list(new_wave = new_wave, 
-              start = start, 
-              end = end, 
-              env = env)
-  return(temp)
+  detections = data.frame(start = start, end = end)
+  return(detections)
   
 }
