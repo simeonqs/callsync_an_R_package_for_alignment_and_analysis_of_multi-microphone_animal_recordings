@@ -51,7 +51,7 @@ coarse.align = function(chunk_size = 15, # duration of output in minutes
     chunk_seq = seq(blank, # start after the blank
                     min_duration-blank-chunk_size, # until minimum duration - blank and chunk
                     chunk_size) # by chunk steps
-    message(sprintf('Running recording: %s. Running %s chunks with start times: ', rec, length(chunks)))
+    message(sprintf('Running recording: %s. Running %s chunks with start times: ', rec, length(chunk_seq)))
     for(chunk in chunk_seq){
       message(chunk)
       
@@ -77,8 +77,10 @@ coarse.align = function(chunk_size = 15, # duration of output in minutes
       }
       
       # Save master
+      id =  files[1] %>% strsplit(keys_id[1]) %>% sapply(`[`, 2) %>% strsplit(keys_id[2]) %>% sapply(`[`, 1)
       writeWave(master[(wing*60*master@samp.rate):(length(master@left)-wing*60*master@samp.rate)], 
-                sprintf('%s/%s_%s.wav', path_chunks, str_remove(basename(files[1]), '.wav'), chunk), 
+                sprintf('%s/%s@%s@%s@%s.wav', 
+                        path_chunks, str_remove(basename(files[1]),'.wav'), id, rec, chunk), 
                 extensible = F)
       
       # Run through children and calculate off-set
@@ -98,9 +100,10 @@ coarse.align = function(chunk_size = 15, # duration of output in minutes
              type = 'l', xlim = c(-wing, max(times) + wing), ylim = c(0, max_y), xaxt = 'n', yaxt = 'n')
         
         # Save child 
-        writeWave(child[(wing*60*child@samp.rate + d*child@samp.rate):
-                          (length(child@left)-wing*60*child@samp.rate + d*child@samp.rate)], 
-                  sprintf('%s/%s_%s.wav', path_chunks, str_remove(basename(files[i]), '.wav'), chunk), 
+        id =  files[i] %>% strsplit(keys_id[1]) %>% sapply(`[`, 2) %>% strsplit(keys_id[2]) %>% sapply(`[`, 1)
+        writeWave(child[(wing*60*child@samp.rate):(length(child@left)-wing*60*child@samp.rate)], 
+                  sprintf('%s/%s@%s@%s@%s.wav', 
+                          path_chunks, str_remove(basename(files[i]),'.wav'), id, rec, chunk), 
                   extensible = F)
         
       } # end i loop
