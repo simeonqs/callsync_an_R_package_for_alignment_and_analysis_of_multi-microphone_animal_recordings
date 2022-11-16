@@ -3,3 +3,7 @@
 *.RData
 *.Ruserdata
 *.DS_Store
+ANALYSIS/DATA
+ANALYSIS/RESULTS
+DOCUMENTS
+.Rproj.user
