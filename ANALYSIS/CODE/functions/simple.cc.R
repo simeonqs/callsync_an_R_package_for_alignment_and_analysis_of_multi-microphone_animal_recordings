@@ -1,5 +1,5 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# Project: cockatiel alignment
+# Project: methods paper
 # Date started: 09-04-2021
 # Date last modified: 10-05-2022
 # Author: Simeon Q. Smeele

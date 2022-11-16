@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# Project: chapter II 
+# Project: methods paper 
 # Date started: 16-03-2021
-# Date last modified: 30-05-2022
+# Date last modified: 16-11-2022
 # Author: Simeon Q. Smeele
 # Description: Traces the fundamental frequency from a wave object. Also applies smoothening to trace.
 # Returns new_trace, which is a dataframe with time in seconds and fund in Herz. 
