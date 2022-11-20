@@ -7,7 +7,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Loading libraries
-libraries = c('warbleR', 'tidyverse', 'scales')
+libraries = c('warbleR', 'tidyverse', 'scales', 'callsync')
 for(lib in libraries){
   if(! lib %in% installed.packages()) lapply(lib, install.packages)
   lapply(libraries, require, character.only = TRUE)
@@ -26,23 +26,23 @@ save_pdf = T  # if T saves a single PDF per folder with 1 chunk per page
 keys_rec = c('_\\(', '\\)_')
 keys_id = c('bird_', '_tag')
 blank = 15
-wing = 10
+wing = 7
 all_files = NULL
 
 # Import functions
 .functions = sapply(list.files(path_functions, pattern = '*R', full.names = T), source)
 
 # Run main function
-coarse.align(chunk_size = chunk_size,
-             all_files = all_files,
-             step_size = step_size,
-             path_folders = path_folders,
-             path_chunks = path_chunks, 
-             keys_id = keys_id,
-             keys_rec = keys_rec,
-             blank = blank, 
-             wing = wing, 
-             save_pdf = save_pdf)
+align(chunk_size = chunk_size,
+      all_files = all_files,
+      step_size = step_size,
+      path_folders = path_folders,
+      path_chunks = path_chunks, 
+      keys_id = keys_id,
+      keys_rec = keys_rec,
+      blank = blank, 
+      wing = wing, 
+      save_pdf = save_pdf)
 
 # Message
 message('All done!')
