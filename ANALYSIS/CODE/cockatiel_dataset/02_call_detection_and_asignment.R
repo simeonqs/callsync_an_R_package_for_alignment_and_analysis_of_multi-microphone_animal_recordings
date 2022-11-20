@@ -6,21 +6,8 @@
 # Description: This script loads chunks, detects calls and assigns them to individuals.
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# Loading libraries
-libraries = c('warbleR', 'tidyverse', 'scales', 'callsync')
-for(lib in libraries){
-  if(! lib %in% installed.packages()) lapply(lib, install.packages)
-  lapply(libraries, require, character.only = TRUE)
-}
-
-# Clean R
-rm(list = ls()) 
-
-# Paths
-source('ANALYSIS/CODE/cockatiel_dataset/00_paths.R')
-
-# Load functions
-.functions = sapply(list.files(path_functions, pattern = '*.R', full.names = T), source)
+# Set-up
+source('ANALYSIS/CODE/cockatiel_dataset/00_set_up.R')
 
 # Settings
 ffilter_from = 1100 # from where to filter (Hz) the wave when loading

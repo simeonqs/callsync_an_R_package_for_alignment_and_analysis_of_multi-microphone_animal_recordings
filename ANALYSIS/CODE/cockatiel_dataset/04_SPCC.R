@@ -8,21 +8,8 @@
 # source('ANALYSIS/CODE/cockatiel_dataset/04_SPCC.R')
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# Loading libraries
-libraries = c('tidyverse', 'warbleR', 'oce', 'signal', 'parallel', 'callsync')
-for(i in libraries){
-  if(! i %in% installed.packages()) lapply(i, install.packages)
-  lapply(libraries, require, character.only = TRUE)
-}
-
-# Clean R
-rm(list=ls()) 
-
-# Paths
-source('ANALYSIS/CODE/cockatiel_dataset/00_paths.R')
-
-# Import functions
-.functions = sapply(list.files(path_functions, pattern = '*R', full.names = T), source)
+# Set-up
+source('ANALYSIS/CODE/cockatiel_dataset/00_set_up.R')
 
 # Settings
 ffilter_from = 500

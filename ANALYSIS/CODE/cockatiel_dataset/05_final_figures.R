@@ -10,21 +10,8 @@
 # Set-up ----
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# Loading libraries
-libraries = c('tidyverse', 'ape', 'callsync')
-for(i in libraries){
-  if(! i %in% installed.packages()) lapply(i, install.packages)
-  lapply(libraries, require, character.only = TRUE)
-}
-
-# Clean R
-rm(list=ls()) 
-
-# Paths
-source('ANALYSIS/CODE/cockatiel_dataset/00_paths.R')
-
-# Import functions
-.functions = sapply(list.files(path_functions, pattern = '*R', full.names = T), source)
+# Set-up
+source('ANALYSIS/CODE/cockatiel_dataset/00_set_up.R')
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Major alignment ----

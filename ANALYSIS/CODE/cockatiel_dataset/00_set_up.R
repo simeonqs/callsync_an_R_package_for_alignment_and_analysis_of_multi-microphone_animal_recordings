@@ -1,11 +1,22 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 14-11-2022
-# Date last modified: 16-11-2022
+# Date last modified: 20-11-2022
 # Author: Simeon Q. Smeele
-# Description: This script provides paths to be sourced in all later scripts 
+# Description: This script sets up the R environment for all other scripts. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+# Loading libraries
+libraries = c('warbleR', 'tidyverse', 'scales', 'callsync')
+for(lib in libraries){
+  if(! lib %in% installed.packages()) lapply(lib, install.packages)
+  lapply(libraries, require, character.only = TRUE)
+}
+
+# Clean R
+rm(list = ls()) 
+
+# Paths to be used by other scripts
 path_functions = 'ANALYSIS/CODE/functions'
 path_recordings = 'ANALYSIS/DATA/cockatiel_dataset'
 path_chunks = 'ANALYSIS/RESULTS/cockatiel_dataset/chunks'

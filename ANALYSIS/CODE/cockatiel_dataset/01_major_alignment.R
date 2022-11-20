@@ -1,23 +1,13 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 14-11-2022
-# Date last modified: 15-11-2022
+# Date last modified: 20-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script loads six tapes at a time and aligns chunks, which are saved as wav files. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# Loading libraries
-libraries = c('warbleR', 'tidyverse', 'scales', 'callsync')
-for(lib in libraries){
-  if(! lib %in% installed.packages()) lapply(lib, install.packages)
-  lapply(libraries, require, character.only = TRUE)
-}
-
-# Clean R
-rm(list = ls()) 
-
-# Paths
-source('ANALYSIS/CODE/cockatiel_dataset/00_paths.R')
+# Set-up
+source('ANALYSIS/CODE/cockatiel_dataset/00_set_up.R')
 
 # Settings
 chunk_size = 15 # size of chunk in minutes
@@ -28,9 +18,6 @@ keys_id = c('bird_', '_tag')
 blank = 15
 wing = 7
 all_files = NULL
-
-# Import functions
-.functions = sapply(list.files(path_functions, pattern = '*R', full.names = T), source)
 
 # Run main function
 align(chunk_size = chunk_size,

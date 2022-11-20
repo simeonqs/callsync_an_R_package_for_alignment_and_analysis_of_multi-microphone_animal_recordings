@@ -12,21 +12,8 @@
 # DATA ----
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# Loading libraries
-libraries = c('tidyverse', 'warbleR', 'parallel', 'callsync')
-for(lib in libraries){
-  if(! lib %in% installed.packages()) lapply(lib, install.packages)
-  lapply(libraries, require, character.only = TRUE)
-}
-
-# Clean R
-rm(list=ls()) 
-
-# Paths
-source('ANALYSIS/CODE/cockatiel_dataset/00_paths.R')
-
-# Import functions
-.functions = sapply(list.files(path_functions, pattern = '*R', full.names = T), source)
+# Set-up
+source('ANALYSIS/CODE/cockatiel_dataset/00_set_up.R')
 
 # Audio files 
 audio_files = list.files(path_calls,  '*wav', full.names = T)
