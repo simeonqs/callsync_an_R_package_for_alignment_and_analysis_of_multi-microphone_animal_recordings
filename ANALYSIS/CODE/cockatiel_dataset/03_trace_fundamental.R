@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 16-11-2022
-# Date last modified: 16-11-2022
+# Date last modified: 19-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script takes a path for a folder with .wav files. It then runs an amplitude envelope
 # with a threshold to detect calls (multiple notes are possible). Within each note the fundamental frequency 
@@ -13,7 +13,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Loading libraries
-libraries = c('tidyverse', 'warbleR', 'parallel')
+libraries = c('tidyverse', 'warbleR', 'parallel', 'callsync')
 for(lib in libraries){
   if(! lib %in% installed.packages()) lapply(lib, install.packages)
   lapply(libraries, require, character.only = TRUE)
@@ -80,9 +80,10 @@ measurements = measure.trace.multiple(traces, new_waves, waves, snr = snr, path_
 
 # Filter measurements and traces object
 keep = measurements$prop_missing_trace < 0.1 & 
-  measurements$signal_to_noise > 5 &
+  measurements$signal_to_noise > 4 &
   measurements$band_hz > 600 & 
-  measurements$duration_s > 0.10 & measurements$duration_s < 0.3
+  measurements$duration_s > 0.10 & measurements$duration_s < 0.45
+mb = measurements
 measurements = measurements[keep,]
 traces = traces[keep]
 
@@ -91,8 +92,11 @@ pdf(path_pdf_samples_filtering, 10, 10)
 par(mfrow = c(4, 4))
 signal = sample(which(keep), 8, replace = T)
 noise = sample(which(!keep), 8, replace = T)
-for(i in c(signal, noise)) better.spectro(waves[[i]], wl = 200, ovl = 195, ylim = c(500, 4000),
-                                          main = basename(audio_files[i]))
+for(i in c(signal, noise)){
+  better.spectro(waves[[i]], wl = 200, ovl = 195, ylim = c(500, 4000),
+                 main = i)
+  abline(v = detections[[i]]/waves[[i]]@samp.rate, lwd = 3, lty = 2)
+} 
 dev.off()
 
 # Save measurements
