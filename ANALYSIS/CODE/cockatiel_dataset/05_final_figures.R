@@ -148,5 +148,5 @@ pco_out = pcoa(m)
 inds = rownames(m) %>% strsplit('@') %>% sapply(`[`, 2)
 pdf(path_pdf_pco, 4, 4)
 plot(pco_out$vectors[,1:2], pch = 16, col = cols[as.numeric(inds)],
-     xlab = 'principle component 1', ylab = 'principle component 2')
+     xlab = 'dimension 1', ylab = 'dimension 2')
 dev.off()
