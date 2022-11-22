@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 14-11-2022
-# Date last modified: 20-11-2022
+# Date last modified: 22-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script sets up the R environment for all other scripts. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -32,3 +32,8 @@ path_pdf_alignment_example = 'ANALYSIS/RESULTS/cockatiel_dataset/figures/alignme
 path_pdf_example_detections = 'ANALYSIS/RESULTS/cockatiel_dataset/figures/detections example.pdf'
 path_pdf_spec_object_example = 'ANALYSIS/RESULTS/cockatiel_dataset/figures/spec_object example.pdf'
 path_pdf_trace_example = 'ANALYSIS/RESULTS/cockatiel_dataset/figures/trace example.pdf'
+path_ground_truth_tables = 'ANALYSIS/DATA/cockatiel_dataset'
+path_ground_truth_chunks = '~/ownCloud/Shared Stephen - Simeon/ground_truth'
+
+# Colours
+cols = c('#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425')
