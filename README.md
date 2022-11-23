@@ -32,6 +32,27 @@ This will source all scripts in the correct order. Some of the steps do take sev
 ------------------------------------------------
 # Meta data
 
+The DATA and RESULTS folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the ANALYSIS folder everything should work.
+
+All analysis related files are in `ANALYSIS`.
+
+All scripts are in `ANALYSIS/CODE`:
+
+- bibliography.bib
+  - contains all the reference in bibtex format
+ - manuscript.md
+  - contains the manuscript in markdown format
+ - manuscript.pdf
+  - unfortunately RStudio outputs the pdf of from the markdown here as well
+ - 00_set_up.R
+  - installs libraries if not already installed
+  - loads libraries
+  - cleans all objects from the global environment
+  - loads all paths as objects
+  - loads custom colours
+ - 01_major_alignment.R
+  - 
+
 
 
 ------------------------------------------------
