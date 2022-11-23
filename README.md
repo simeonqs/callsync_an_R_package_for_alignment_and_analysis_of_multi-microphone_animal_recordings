@@ -60,6 +60,7 @@ All scripts are in `ANALYSIS/CODE`:
 - 02_call_detection_and_asignment.R
   - runs the `detect.and.assign` function to load the chunks of the previous steps, detect calls, filter out the calls from the focal individual for each chunk and save the calls as seperate files in the `ANALYSIS/RESULTS/calls` folder
 
+- 03_trace_fundamental.R
 
 
 
