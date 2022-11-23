@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 16-11-2022
-# Date last modified: 19-11-2022
+# Date last modified: 22-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script takes a path for a folder with .wav files. It then runs an amplitude envelope
 # with a threshold to detect calls (multiple notes are possible). Within each note the fundamental frequency 
@@ -39,6 +39,7 @@ snr = 9 # threshold for colouring calls as noisy
 
 # Load waves
 waves = lapply(audio_files, load.wave, ffilter_from = ffilter_from)
+names(waves) = basename(audio_files)
 
 # Detect call
 detections = lapply(waves, call.detect, 
@@ -59,7 +60,11 @@ traces = mclapply(new_waves, function(new_wave)
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Run function
-measurements = measure.trace.multiple(traces, new_waves, waves, snr = snr, path_pdf = path_pdf_traces)
+measurements = measure.trace.multiple(traces = traces, 
+                                      new_waves = new_waves, 
+                                      waves = waves, 
+                                      detections = detections,
+                                      path_pdf = path_pdf_traces)
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # ANALYSIS: filter and save ----

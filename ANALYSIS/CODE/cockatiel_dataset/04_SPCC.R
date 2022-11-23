@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 16-11-2022
-# Date last modified: 20-11-2022
+# Date last modified: 23-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script runs spectrographic cross correlation on single wav files and constructs a 
 # distance matrix based on the output. 
@@ -36,7 +36,7 @@ names(waves) = basename(audio_files)
 
 # Run function
 message('Starting spcc...')
-m = run.spcc(waves,
+m = run.spcc(waves = waves,
              freq_range = freq_range,
              thr_low = thr_low,
              thr_high = thr_high,
