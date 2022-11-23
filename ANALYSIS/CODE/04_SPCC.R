@@ -9,7 +9,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Set-up
-source('ANALYSIS/CODE/cockatiel_dataset/00_set_up.R')
+source('ANALYSIS/CODE/00_set_up.R')
 
 # Settings
 ffilter_from = 500

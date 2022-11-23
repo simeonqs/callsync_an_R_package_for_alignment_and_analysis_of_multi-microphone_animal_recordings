@@ -7,7 +7,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Set-up
-source('ANALYSIS/CODE/cockatiel_dataset/00_set_up.R')
+source('ANALYSIS/CODE/00_set_up.R')
 
 # Run detect and assign on ground truth chunks
 d = detect.and.assign(path_chunks = path_ground_truth_chunks,

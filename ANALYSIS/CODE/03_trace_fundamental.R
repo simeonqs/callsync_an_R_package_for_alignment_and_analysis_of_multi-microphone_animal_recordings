@@ -13,7 +13,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Set-up
-source('ANALYSIS/CODE/cockatiel_dataset/00_set_up.R')
+source('ANALYSIS/CODE/00_set_up.R')
 
 # Audio files 
 audio_files = list.files(path_calls,  '*wav', full.names = T)
