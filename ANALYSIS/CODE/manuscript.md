@@ -72,29 +72,29 @@ $^*$Correspondence author. E-mail: <ssmeele@ab.mpg.de>
 
 The study of vocal signals in animals is a critical tool for understanding the evolution of vocal communication. Recent innovations in on-animal recording technologies have allowed for a dramatic increase of fine scale bioacoustic data collection and research (cite many papers). Studying the ways that animals communicate in ‘real time’ allows us to untangle the complicated dynamics of how group members signal one another (zefi and whale work). These communication networks can help us understand how animals coordinate call response with movement (ari) as well as how group signatures form (budgies). However, as the capability of placing small recording devices on animals increases, so too does the need for tools to process the resulting data streams. Several publicly available R packages exist that measure acoustic parameters from single audio tracks (Seewave, TuneR, WarbleR), but to our knowledge, none address the critical issue of microphone clock drift and the ability to align and process multiple recordings. This poses a serious issue for those studying communication networks of multiple tagged individuals. In this paper, we apply a new R package, callsync, that aligns multiple misaligned audio files, detects vocalisations, assigns these to the focal individual and provides an analytical pipeline for the resulting synchronised data. 
 
-The primary target for use of this package are researchers that study animal communication systems within groups. The critical issue is that multiple microphones recording simultaneously can drift apart in time (citation). To make matters worse this drift is often non-linear (cite examples). Thus, if several microphone recorders (list examples of bats, etc) are placed on animals, it is critical for researchers to be able to line up all tracks so that calls can be assigned correctly to the focal individual (loudest track). The main functionality of callsync is to align audio tracks, detect calls from each track, determine which individual (even ones in relatively close proximity to one another) is vocalising and segment them, as well as take measurements of the given calls. However, callsync takes a modular approach to aligning, segmenting, and analysing audio tracks so that researchers can use only the components of the package that suit their needs. 
+The primary target for use of this package are researchers that study animal communication systems within groups. The critical issue is that multiple microphones recording simultaneously can drift apart in time (citation). To make matters worse this drift is often non-linear (cite examples). Thus, if several microphone recorders (list examples of bats, etc) are placed on animals, it is critical for researchers to be able to line up all tracks so that calls can be assigned correctly to the focal individual (loudest track). The main functionality of callsync is to align audio tracks, detect calls from each track, determine which individual (even ones in relatively close proximity to one another) is vocalising and segment them, as well as take measurements of the given calls (see Figure X). However, callsync takes a modular approach to aligning, segmenting, and analysing audio tracks so that researchers can use only the components of the package that suit their needs. 
+
+![Flowchart from the `callsync` package. The *alignment* module can be used to align multiple microphones that have non-linear temporal drift. The *detection* module can be used to detect vocalisations in each recording. The *assignment* module can be used to assign a vocalisation to the focal individual, making sure that vocalisations from conspecifics are excluded from the focal recording. The *tracing* module can be used to trace and analyse the fundamental frequency for each vocalisation. Filters can be applied to remove false alarms in the detection module. The final *analysis* module can be used to run spectrographic cross correlation and create a feature vector to compare across recordings.]("../RESULTS/figures/flowchart.pdf")
 
 Current research packages that implement call alignment strategies are either used in matlab (citation), c++ (citation) or python (citation). However these tools have not, up to now, been adapted for the R environment. Many of these tools are not documented publicly (citation) nor open source, and can require high licensing fees (i.e Matlab). While the design of this package is best suited to contexts where all microphones exist in the same spatial area, it is the goal that it can be adapted to more difficult contexts. This package is publicly available on github (cite),is beginner friendly with strong documentation, and does not require extensive programming background. This open source tool will allow researchers to expand the study of bioacoustics and solve an issue that impedes detailed analysis of group-level calls. We will provide a case study and workflow that will demonstrate the use of this package. 
 
 # Case study: cockatiel contact calls
 
-We present a case study to show how `callsync` functions can be included in a workflow (see Figure X). The study is based on a captive system with XXX [Stephen can you fill this out].
-
-![Flowchart from the `callsync` package. The *alignment* module can be used to align multiple microphones that have non-linear temporal drift. The *detection* module can be used to detect vocalisations in each recording. The *assignment* module can be used to assign a vocalisation to the focal individual, making sure that vocalisations from conspecifics are excluded from the focal recording. The *tracing* module can be used to trace and analyse the fundamental frequency for each vocalisation. Filters can be applied to remove false alarms in the detection module. The final *analysis* module can be used to run spectrographic cross correlation and create a feature vector to compare across recordings.]("../RESULTS/cockatiel_dataset/figures/flowchart.pdf")
+We present a case study to show how `callsync` functions can be included in a workflow (see Figure X). We used a dataset of domestic cockatiels (*Nymphicus hollandicus*). These birds are a part of an ongoing study at the Max Planck Institute of Animal Behavior. Birds were housed in several groups of six individuals in a 4x3x2.7m aviary facility. We equipped six cockatiels with a TS-systems EDIC-Mini E77 tag inside a sewn nylon backpack fitted via Teflon harness around the wings, with the total weight of all components under 7% of body weight. Audio recordings were scheduled to record for a maximum of 4 hours per day. Each microphone was automatically programmed to turn on and off daily at the same time. For the purposes of demonstration, two full days of recordings (3.5 hours each) were selected for processing where the microphones were scheduled to record from 7:30 until 11:30 in the morning. After several days of deployment, microphone recorders are removed and downloaded as .wav files directly onto the computer from the tag. These tags are placed into the appropriate folder (see workflow instructions) and processed in accordance with our package workflow. 
 
 ## Installation and set-up
 
 ## Alignment of raw recordings
 
-Raw recordings consist of 3.5 hour long wav files for six cockatiels for each day. We included four days of data in this case study. The backpack microphones have internal clocks that automatically turn them on and off. However, these clocks drift in time both during the off period, creating start times that differ up to a few minutes, and during the recording period, creating additional variable drift up to a minute between recordings. The first step is therefore to align 15 minute chunks of recording to ensure that drift is reduced to mere seconds.
+Raw recordings consist of 3.5 hour long wav files for six cockatiels for each day. We included two days of data in this case study. The backpack microphones have internal clocks that automatically turn them on and off. However, these clocks drift in time both during the off period, creating start times that differ up to a few minutes, and during the recording period, creating additional variable drift up to a minute between recordings. The first step is therefore to align 15 minute chunks of recording to ensure that drift is reduced to mere seconds.
 
 The function `align` can be used for this. It splits the recordings up into shorter chunks, in our case 15 minutes. It aligns all recordings relative to one of the recordings using cross correlation on the energy content (summed absolute amplitude) per time bin, in our case 0.5 seconds.
 
 ``` r
 align(chunk_size = 15, # minutes
       step_size = 0.5, # seconds
-      path_folders = 'ANALYSIS/DATA/cockatiel_dataset',
-      path_chunks = 'ANALYSIS/RESULTS/cockatiel_dataset/chunks', 
+      path_folders = 'ANALYSIS/DATA',
+      path_chunks = 'ANALYSIS/RESULTS/chunks', 
       keys_rec = c('_\\(', '\\)_'),
       keys_id = c('bird_', '_tag'),
       blank = 15, # minutes
@@ -106,7 +106,9 @@ For cross correlation we load the chunks with additional minutes before and afte
 
 The function also allows the user to create a pdf with wave forms per individual and a single page per chunk, to visually verify if alignment was successful. To illustrate the alignment we ran the function on two minute chunks and plottet the aligned wave forms for two individuals in Figure X.
 
-![Example of two aligned waveforms (black). The grey waveform in the background is before alignment.]("../RESULTS/cockatiel_dataset/figures/alignment example.pdf")
+For our dataset all chunks correctly aligned without filter. If this is not the case the option `ffilter_from` can be set to apply a highpass filter. Chunks can also be rerun individually using the option `chunk_seq`.
+
+![Example of two aligned waveforms (black). The grey waveform in the background is before alignment.]("../RESULTS/figures/alignment example.pdf")
 
 ## Call detection and assignment
 
@@ -135,7 +137,7 @@ measurements = measure.trace.multiple(traces, new_waves, waves, snr = snr,
 
 An example of the resulting trace can be seen in Figure X. 
 
-![Spectrogram of a cockatiel call with start and end (black dashed lines) and the fundamental frequency trace (green solid line).]("../RESULTS/cockatiel_dataset/figures/trace example.pdf")
+![Spectrogram of a cockatiel call with start and end (black dashed lines) and the fundamental frequency trace (green solid line).]("../RESULTS/figures/trace example.pdf")
 
 The call detection step also picks up on a lot of noise (birds scratching, flying, walking around) as well as calls. We therefore ran a final step to filter the measurements and traces before these were saved:
 
@@ -150,10 +152,16 @@ traces = traces[keep]
 
 Another way to analyse calls is to measure their similarity directly. A frequently used method is spectrographic cross correlation (SPCC), where two spectrograms are slid over each other and the pixelwise difference is computed for each step. At the point where the signals maximally overlap one will find the minimal difference. This score is than used as a measure of acoustic distance between two calls. The function `xxx` runs SPCC and includes several methods to reduce noise in the spectrogram before running cross correlation (for an example see Figure X). 
 
-![Example spectrogram (left) and noise reduced spectrogram (right) of a cockatiel call. Darker colours indicate higher intensity.]("../RESULTS/cockatiel_dataset/figures/spec_object example.pdf")
+![Example spectrogram (left) and noise reduced spectrogram (right) of a cockatiel call. Darker colours indicate higher intensity.]("../RESULTS/figures/spec_object example.pdf")
 
 To visualise the resulting of SPCC on the cockatiel calls we used principle coordinate analysis, and plotted the first two coordinates in Figure X. 
 
-![Call distribution in PCO space. Dots represents calls and are coloured by individual.]("../RESULTS/cockatiel_dataset/figures/pco.pdf")
+![Call distribution in PCO space. Dots represents calls and are coloured by individual.]("../RESULTS/figures/pco.pdf")
 
 # Discussion
+
+# Acknowledgements
+
+# Data accessibility
+
+
