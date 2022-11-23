@@ -61,9 +61,26 @@ All scripts are in `ANALYSIS/CODE`:
   - runs the `detect.and.assign` function to load the chunks of the previous steps, detect calls, filter out the calls from the focal individual for each chunk and save the calls as seperate files in the `ANALYSIS/RESULTS/calls` folder
 
 - 03_trace_fundamental.R
+  - loads the calls using the `load.wave` function
+  - detect start and end times more precisely using the `call.detect` function
+  - traces the fundamental frequency using the `trace.fund` function
+  - takes several measurements on the traces using the `measure.trace.multiple` function
+  - filters out noise based on the measurements
+  - saves the traces and measurements to the `ANALYSIS/RESULTS/traces` folder
 
+- 04_SPCC.R
+  - reloads the calls that appear in the measurements (filtered for noise)
+  - runs spectrographic cross correlation using the `run.spcc` function
+  - saves the resulting distance matrix in the `ANALYSIS/RESULTS/SPCC` folder
 
+- 05_final_figures.R
+  - plots the figures used in the manuscript
 
+- 06_performance.R
+  - reruns `detect.and.assign` on a few chunks
+  - loads the ground truth using the `load.selection.tables.audacity` function
+  - calculates the performance using the `calc.perf` function
+  - prints the results to the `ANALYSIS/RESULTS/performance` folder
 
 ------------------------------------------------
 # Session info
