@@ -40,18 +40,27 @@ All scripts are in `ANALYSIS/CODE`:
 
 - bibliography.bib
   - contains all the reference in bibtex format
- - manuscript.md
+  
+- manuscript.md
   - contains the manuscript in markdown format
- - manuscript.pdf
+  
+- manuscript.pdf
   - unfortunately RStudio outputs the pdf of from the markdown here as well
- - 00_set_up.R
+  
+- 00_set_up.R
   - installs libraries if not already installed
   - loads libraries
   - cleans all objects from the global environment
   - loads all paths as objects
   - loads custom colours
- - 01_major_alignment.R
-  - 
+  
+- 01_major_alignment.R
+  - runs the `align` function to load the raw data, and write aligned segments/chunks to the `ANALYSIS/RESULTS/chunks` folder
+
+- 02_call_detection_and_asignment.R
+  - runs the `detect.and.assign` function to load the chunks of the previous steps, detect calls, filter out the calls from the focal individual for each chunk and save the calls as seperate files in the `ANALYSIS/RESULTS/calls` folder
+
+
 
 
 
