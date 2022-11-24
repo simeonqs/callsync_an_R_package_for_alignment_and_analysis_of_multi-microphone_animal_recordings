@@ -16,9 +16,9 @@ Required packages are loaded in the `ANALYSIS/CODE/00_set_up.R` script.
 ------------------------------------------------
 # Workflow
 
-The DATA and RESULTS folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the ANALYSIS folder everything should work.
+The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the `ANALYSIS` folder everything should work.
 
-Make sure your working directory is the main repo folder. This is automatically the case if you open the `.Rproj` file and run everything from there.
+Make sure your working directory is the main repo folder. This is automatically the case if you open the `project.Rproj` file and run everything from there.
 
 All steps can be sourced individually using the source botton in R Studio or by just running all the lines. `ANALYSIS/CODE/00_set_up.R` gets sourced from within all other scripts and takes care of the set-up. If you want to run the full pipeline you can also run:
 
@@ -32,7 +32,7 @@ This will source all scripts in the correct order. Some of the steps do take sev
 ------------------------------------------------
 # Meta data
 
-The DATA and RESULTS folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the ANALYSIS folder everything should work.
+The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the ANALYSIS folder everything should work.
 
 All analysis related files are in `ANALYSIS`.
 
@@ -81,6 +81,40 @@ All scripts are in `ANALYSIS/CODE`:
   - loads the ground truth using the `load.selection.tables.audacity` function
   - calculates the performance using the `calc.perf` function
   - prints the results to the `ANALYSIS/RESULTS/performance` folder
+  
+All data is in `ANALYSIS/DATA`:
+
+- July_15 and July_16 contain the raw recordings
+  - filenames in the folder are of the format: group_bird_xx_irrelevant_info_(date-time)_micid.wav
+  
+- ground_truth_xxx_labels.txt are the ground truth tables from Audacity
+  - odd numbered rows contain: start time (s) - end time (s) - file name
+  - even numbered rows contain irrelevant information and are discarded when read with the function `load.selection.tables.audacity`
+  
+All results can be found in `ANALYSIS/RESULTS`:
+
+- calls contains the pdfs with call detections and wav files with individual calls (and also noise)
+
+- chunks contains the pdfs with alignment and the individual chunks
+
+- figures contains the final figures for the manuscript
+
+- performance contains a txt with the performance output
+
+- SPCC contains the results from spectrographic cross correlation
+
+- traces contains the results of the tracing and measurement steps
+  
+Other than the `ANALYSIS` folder the main folder also contains:
+
+- README.md
+  - the file you are reading now, should explain everything you need to know
+
+- project.Rproj
+  - open a new R Project from which all code can be run
+  
+- .gitignore
+  - text file that contains all paths of files/folders that should not be tracked by git, these are `DATA` and `RESULTS` and some hidden files
 
 ------------------------------------------------
 # Session info
