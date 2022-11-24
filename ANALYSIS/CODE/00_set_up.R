@@ -28,12 +28,15 @@ path_pdf_samples_filtering = 'ANALYSIS/RESULTS/traces/samples filtering.pdf'
 path_pdf_samples_spec_objects = 'ANALYSIS/RESULTS/SPCC/samples spec_objects.pdf'
 path_spcc_results = 'ANALYSIS/RESULTS/SPCC/spcc_results.RData'
 path_pdf_pco = 'ANALYSIS/RESULTS/figures/pco.pdf'
-path_pdf_alignment_example = 'ANALYSIS/RESULTS/figures/alignment example.pdf'
+path_figures = 'ANALYSIS/RESULTS/figures'
+path_example_chunk_before = 
+  'ANALYSIS/RESULTS/figures/p4_c7_bird_01_bg_060_tag_07_file_4_(2021_07_16-05_54_59)_ASWMUX221163.pdf'
+path_example_chunk_after = 'ANALYSIS/RESULTS/figures/alignment example.pdf'
 path_pdf_example_detections = 'ANALYSIS/RESULTS/figures/detections example.pdf'
 path_pdf_spec_object_example = 'ANALYSIS/RESULTS/figures/spec_object example.pdf'
 path_pdf_trace_example = 'ANALYSIS/RESULTS/figures/trace example.pdf'
 path_ground_truth_tables = 'ANALYSIS/DATA'
-path_ground_truth_chunks = '~/ownCloud/Shared Stephen - Simeon/ground_truth'
-
+path_perf = 'ANALYSIS/RESULTS/performance/performance.txt'
+  
 # Colours
 cols = c('#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425')
