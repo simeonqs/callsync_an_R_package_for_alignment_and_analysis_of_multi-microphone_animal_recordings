@@ -57,16 +57,15 @@ $^*$Correspondence author. E-mail: <ssmeele@ab.mpg.de>
 
 # Summary
 
-1.  To better understand how vocalisations are used during interactions of multiple individuals captive studies with microphones on the animal are often performed. The resulting recordings are challenging to analyse, since microphones drift and record the vocalisations of non-focal individuals as well as noise.
+1.  To better understand how vocalisations are used during interactions of multiple individuals captive studies with microphones on the animal are often performed. The resulting recordings are challenging to analyse, since microphones drift non-linearly and record the vocalisations of non-focal individuals as well as noise.
 
-2.  Here we present audioID, an R package designed to align recordings, detect and assign vocalisations, filter out noise and perform basic analysis on the resulting clips.
+2.  Here we present *callsync*, an R package designed to align recordings, detect and assign vocalisations, trace the fundamental frequency, filter out noise and perform basic analysis on the resulting clips.
 
-3.  We present a case study where the pipeline is used for a new dataset of captive cockatiels. We show that xx calls can be detected and assigned across yy hours of recording. We use the resulting calls to show that individuals can be recognised based on xx, xx, xx features.
+3.  We present a case study where the pipeline is used on a new dataset of six captive cockatiels (*Nymphicus hollandicus*) wearing backpack microphones. We show that **xx** calls can be detected and assigned across two days of 3.5 hours of recording. **We use the resulting calls to show that individuals can be recognised based on xx, xx, xx features.**
 
-4.  The audioID can be used to go from raw recordings to a cleaned dataset of features. The package is designed to be modular and allow users to replace functions as they wish. We also discuss the challenges that might be faced in each step and how the available literature can provide alternatives for each step.
+4.  The *callsync* package can be used to go from raw recordings to a cleaned dataset of features. The package is designed to be modular and allow users to replace functions as they wish. We also discuss the challenges that might be faced in each step and how the available literature can provide alternatives for each step.
 
-
-**Keywords:** something about sound, other stuff about sound
+**Keywords:** communication networks, bio acoustics, microphone alignment, recording segmentation
 
 # Introduction
 
@@ -84,31 +83,35 @@ We present a case study to show how `callsync` functions can be included in a wo
 
 ## Installation and set-up
 
-## Alignment of raw recordings
-
-Raw recordings consist of 3.5 hour long wav files for six cockatiels for each day. We included two days of data in this case study. The backpack microphones have internal clocks that automatically turn them on and off. However, these clocks drift in time both during the off period, creating start times that differ up to a few minutes, and during the recording period, creating additional variable drift up to a minute between recordings. The first step is therefore to align 15 minute chunks of recording to ensure that drift is reduced to mere seconds.
-
-The function `align` can be used for this. It splits the recordings up into shorter chunks, in our case 15 minutes. It aligns all recordings relative to one of the recordings using cross correlation on the energy content (summed absolute amplitude) per time bin, in our case 0.5 seconds.
+The package call be installed from CRAN running `install.packages(callsync)` or a developmental version can be installed from GitHub:
 
 ``` r
-align(chunk_size = 15, # minutes
-      step_size = 0.5, # seconds
-      path_folders = 'ANALYSIS/DATA',
-      path_chunks = 'ANALYSIS/RESULTS/chunks', 
-      keys_rec = c('_\\(', '\\)_'),
-      keys_id = c('bird_', '_tag'),
-      blank = 15, # minutes
-      wing = 10, # minutes
-      save_pdf = TRUE)
+install.packages('devtools')
+library(devtools)
+devtools::install_github('simeonqs/callsync')
 ```
 
-For cross correlation we load the chunks with additional minutes before and after (option `wing`) to ensure that overlap can be found. The cross correlation is performed using the function `simple.cc`, which takes two vectors (the binned energy content of two recordings) and calculates the absolute difference while sliding the two vectors over each other. It returns the position of minimum summed difference, or in other words the position of maximal overlap. This position is then used to align the recordings relative to the first recording and save chunks that are maximally aligned. Note that due to drift during the recording, the start and end times might still be seconds off; it is the overall alignment of the chunk that is optimised. 
+All required packages are also automatically installed and loaded for the case study when running the `00_set_up.R` script.
 
-The function also allows the user to create a pdf with wave forms per individual and a single page per chunk, to visually verify if alignment was successful. To illustrate the alignment we ran the function on two minute chunks and plottet the aligned wave forms for two individuals in Figure X.
+## Alignment of raw recordings
 
-For our dataset all chunks correctly aligned without filter. If this is not the case the option `ffilter_from` can be set to apply a highpass filter. Chunks can also be rerun individually using the option `chunk_seq`.
+Raw recordings consist of two days with 3.5 hour long wav files for six cockatiels. The backpack microphones have internal clocks that automatically turn them on and off. However, these clocks drift in time both during the off period, creating start times that differ up to a few minutes, and during the recording period, creating additional variable drift up to a minute between recordings. The first step is therefore to align 15 minute chunks of recording to ensure that drift is reduced to mere seconds. The function `align` can be used for this. It splits the recordings up into shorter chunks and aligns all recordings relative to one of the recordings using cross correlation on the energy content (summed absolute amplitude) per time bin, in our case 0.5 seconds.
 
-![Example of two aligned waveforms (black). The grey waveform in the background is before alignment.]("../RESULTS/figures/alignment example.pdf")
+``` r
+align(chunk_size = 15,                          # how long should the chunks be in minutes
+      step_size = 0.5,                          # bin size for summing in seconds
+      path_recordings = 'ANALYSIS/DATA',        # where raw data is stored
+      path_chunks = 'ANALYSIS/RESULTS/chunks',  # where to store the chunks
+      keys_rec = c('_\\(', '\\)_'),             # how to recognise the recording in the path
+      keys_id = c('bird_', '_tag'),             # how to recognise the individiual/microphone in the path
+      blank = 15,                               # how much should be discarded before and after in minutes
+      wing = 10,                                # how much extra should be loaded for alignment in minutes
+      save_pdf = TRUE)                          # should a pdf be saved
+```
+
+For cross correlation we load the chunks with additional minutes before and after (option `wing`) to ensure that overlap can be found. The cross correlation is performed using the function `simple.cc`, which takes two vectors (the binned energy content of two recordings) and calculates the absolute difference while sliding the two vectors over each other. It returns the position of minimum summed difference, or in other words the position of maximal overlap. This position is then used to align the recordings relative to the first recording and save chunks that are maximally aligned. Note that due to drift during the recording, the start and end times might still be seconds off; it is the overall alignment of the chunks that is optimised. The function also allows the user to create a pdf with wave forms per individual and a single page per chunk (see Figure X), to visually verify if alignment was successful. For our dataset all chunks aligned correctly without filter. If this is not the case the option `ffilter_from` can be set to apply a high-pass filter. Mis-aligned chunks can also be rerun individually using the option `chunk_seq`.
+
+![Example of the alignment output. Black lines represent the summed absolute amplitude per bin (= 0.5 seconds). Recordings are aligned relative to the first recording (which starts at 0). Note that recording 2-5 start ~2 minutes earlier, but are still aligned. The title displays the start time of the chunk in the raw recording.]("../RESULTS/figures/alignment example.pdf")
 
 ## Call detection and assignment
 
@@ -116,7 +119,9 @@ The next step is to detect calls and assign them to the correct individual.
 
 For detection we load the chunks using the wrapper function `load.wave` where we apply a high-pass filter from 1100 Hz. To detect calls we used the `call.detect.multiple` which can detect multiple calls in an R wave object. It first applies the `env` function from the *seewave* package with `msmooth = c(1000, 95)` create a smooth Hilbert amplitude envelope. It then detects all the points on the envelope which are above a certain threshold relative to the maximum of the envelope. After removing detections that are shorter than a set minimum duration it returns all the start and end times as a dataframe.
 
-Because the microphones on non-focal individuals are very likely to record the calls of the vocalising individual as well, we implemented a step that assigns the detected calls to the correct individual. This step runs through all the detections in a given chunk for a given individual and runs the `call.detect` function to more precisely determine the start and end time of the call. It then aligns this call with all the recordings of all other individuals by rerunning the `simple.cc` function to ensure that minor temporal drift is corrected. After alignment it calculates the summed absolute energy content for the time frame when the call was detected on all recordings and compares this to the focal recording. If the focal recording is the loudest, the detection is saved as a separate wav file. If not, the detection is discarded.
+Because the microphones on non-focal individuals are very likely to record the calls of the vocalising individual as well, we implemented a step that assigns the detected calls to the correct individual. This step runs through all the detections in a given chunk for a given individual and runs the `call.detect` function to more precisely determine the start and end time of the call. It then aligns this call with all the recordings of all other individuals by rerunning the `simple.cc` function to ensure that minor temporal drift is corrected. After alignment it calculates the summed absolute energy content for the time frame when the call was detected on all recordings and compares this to the focal recording. If the focal recording is the loudest, the detection is saved as a separate wav file. If not, the detection is discarded. The function also allows the user to create a pdf with all the detections (see Figure X for a short example).
+
+![Example of the detection output. Black lines are the wave forms. Cyan dashed lines with shaded area in between are the detected calls.]("../RESULTS/figures/detections example.pdf")
 
 ## Analysis of single calls and call comparison
 
@@ -160,7 +165,15 @@ To visualise the resulting of SPCC on the cockatiel calls we used principle coor
 
 # Discussion
 
+**Insert.**
+
 # Acknowledgements
+
+**Thank yous.** We thank Dr. Ariana Strandburg-Peshkin for early feedback. 
+
+**Funding.** SQS and SAT received from the International Max Planck Research School for Organismal Biology and the International Max Planck Research School for Quantitative Behaviour, Ecology and Evolution. SAT received additional funding from a DAAD PhD fellowship. 
+
+The authors declare no conflicts of interest.
 
 # Data accessibility
 
