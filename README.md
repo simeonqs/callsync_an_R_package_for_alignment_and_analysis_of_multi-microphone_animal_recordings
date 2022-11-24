@@ -119,13 +119,13 @@ Other than the `ANALYSIS` folder the main folder also contains:
 ------------------------------------------------
 # Session info
 
-R version 4.1.0 (2021-05-18)
+R version 4.2.1 (2022-06-23)
 
 Platform: x86_64-apple-darwin17.0 (64-bit)
 
 Running under: macOS Catalina 10.15.7
 
-Packages: scales_1.1.1, cmdstanr_0.4.0
+Packages: parallel,  stats, graphic, grDevice, utils, datasets, methods, base, callsync_0.0.0, scales_1.2.1, dplyr_1.0.10, stringr_1.4.1, tuneR_1.4.1, seewave_2.2.0 
 
 ------------------------------------------------
 # Maintainers and contact
