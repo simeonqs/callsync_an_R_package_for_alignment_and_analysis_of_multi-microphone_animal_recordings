@@ -35,7 +35,7 @@ path_example_chunk_after = 'ANALYSIS/RESULTS/figures/alignment example.pdf'
 path_pdf_example_detections = 'ANALYSIS/RESULTS/figures/detections example.pdf'
 path_pdf_trace_and_spec_object_example = 'ANALYSIS/RESULTS/figures/spec_object and trace example.pdf'
 path_ground_truth_tables = 'ANALYSIS/DATA'
-path_perf = 'ANALYSIS/RESULTS/performance/performance.txt'
+path_perf = 'ANALYSIS/RESULTS/perfomance/performance.txt'
   
 # Colours
 cols = c('#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425')
