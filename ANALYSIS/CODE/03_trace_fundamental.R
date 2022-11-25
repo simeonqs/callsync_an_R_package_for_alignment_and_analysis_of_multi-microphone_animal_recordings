@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 16-11-2022
-# Date last modified: 22-11-2022
+# Date last modified: 25-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script takes a path for a folder with .wav files. It then runs an amplitude envelope
 # with a threshold to detect calls (multiple notes are possible). Within each note the fundamental frequency 
@@ -42,6 +42,7 @@ waves = lapply(audio_files, load.wave, ffilter_from = ffilter_from)
 names(waves) = basename(audio_files)
 
 # Detect call
+message('Starting detections.')
 detections = lapply(waves, call.detect, 
                     threshold = threshold,
                     msmooth = msmooth,
@@ -51,6 +52,7 @@ detections = lapply(waves, call.detect,
 new_waves = lapply(1:length(waves), function(i) waves[[i]][detections[[i]]$start:detections[[i]]$end])
 
 # Trace fundamental
+message('Tracing.')
 traces = mclapply(new_waves, function(new_wave)
   trace.fund(new_wave, spar = spar, freq_lim = freq_lim, thr = thr_trace, hop = hop,
              noise_factor = noise_factor), mc.cores = mc.cores)
@@ -60,6 +62,7 @@ traces = mclapply(new_waves, function(new_wave)
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Run function
+message('Measuring.')
 measurements = measure.trace.multiple(traces = traces, 
                                       new_waves = new_waves, 
                                       waves = waves, 
@@ -71,19 +74,18 @@ measurements = measure.trace.multiple(traces = traces,
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Filter measurements and traces object
-keep = measurements$prop_missing_trace < 0.1 & 
+keep = measurements$prop_missing_trace < 0.15 & 
   measurements$signal_to_noise > 4 &
-  measurements$band_hz > 600 & 
-  measurements$duration_s > 0.10 & measurements$duration_s < 0.45
+  measurements$band_hz > 400 
 mb = measurements
 measurements = measurements[keep,]
 traces = traces[keep]
 
 # Plot samples of noise and samples of none noise
-pdf(path_pdf_samples_filtering, 10, 10)
-par(mfrow = c(4, 4))
-signal = sample(which(keep), 8, replace = T)
-noise = sample(which(!keep), 8, replace = T)
+pdf(path_pdf_samples_filtering, 15, 10)
+par(mfrow = c(4, 6))
+signal = sample(which(keep), 12, replace = T)
+noise = sample(which(!keep), 12, replace = T)
 for(i in c(signal, noise)){
   better.spectro(waves[[i]], wl = 200, ovl = 195, ylim = c(500, 4000),
                  main = i)
