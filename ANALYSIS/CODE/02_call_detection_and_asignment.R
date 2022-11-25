@@ -1,30 +1,30 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 14-11-2022
-# Date last modified: 21-11-2022
+# Date last modified: 24-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script loads chunks, detects calls and assigns them to individuals.
+# source('ANALYSIS/CODE/02_call_detection_and_asignment.R')
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Set-up
 source('ANALYSIS/CODE/00_set_up.R')
 
 # Settings
-ffilter_from = 1100 # from where to filter (Hz) the wave when loading
-threshold = 0.4 # threshold for amplitude envelope when detecting call
-msmooth = c(1000, 95) # smoothening settings of amplitude envelope
-min_dur = 0.1 # minimal duration for a note to be included in seconds
+ffilter_from = 1100 
+threshold = 0.4 
+msmooth = c(1000, 95) 
+min_dur = 0.1 
 max_dur = 0.3
-step_size = 1/50 # step size in seconds for the alignment
-wing = 10 # how many seconds to load before and after detection for alignment
+step_size = 1/50 
+wing = 10 
 keys_id = c('bird_', '_tag')
 keys_rec = c('_\\(', '\\)_')
 all_files = NULL
 save_files = TRUE
-quiet = FALSE
 
 # Run function
-detect.and.assign(all_files = NULL,
+detect.and.assign(all_files = all_files,
                   path_chunks = path_chunks,
                   path_calls = path_calls,
                   ffilter_from = ffilter_from,
@@ -35,4 +35,3 @@ detect.and.assign(all_files = NULL,
                   step_size = step_size, 
                   wing = wing, 
                   save_files = save_files) 
-
