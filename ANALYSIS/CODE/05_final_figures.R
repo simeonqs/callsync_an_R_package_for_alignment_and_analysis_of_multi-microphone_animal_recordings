@@ -97,12 +97,12 @@ mtext('time [s]', 1, 3)
 dev.off()
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# Tracing ----
+# Tracing and spec object ----
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # List files and load wave
-all_files = list.files(path_calls, pattern = '*wav', full.names = T, recursive = T)
-wave = load.wave(all_files[2])
+audio_files = list.files('ANALYSIS/RESULTS/calls',  '*wav', full.names = T)
+wave = load.wave(audio_files[1], ffilter_from = 500)
 
 # Detect trace
 det = call.detect(wave, threshold = c(0.37, 0.47))
@@ -110,26 +110,16 @@ trace = trace.fund(wave[det$start:det$end], freq_lim = c(1.2, 3.5), thr = 0.15, 
                    noise_factor = 1.5)
 
 # Plot spectrogram and trace
-pdf(path_pdf_trace_example, 4, 4)
-better.spectro(wave, wl = 200, ovl = 190, ylim = c(700, 3500), mar = c(4, 4, 2, 1))
+pdf(path_pdf_trace_and_spec_object_example, 7, 3.5)
+par(mfrow = c(1, 2), oma = c(3.5, 3.5, 0, 0))
+better.spectro(wave, wl = 200, ovl = 190, ylim = c(700, 3500), mar = c(1, 1, 1, 1), 
+               cex.axis = 0.01, cex.lab = 0.1)
+text(x = 0.04, y = 3250, labels = 'a)', font = 2, cex = 1)
+mtext('time [s]', 1, 2.5, cex = 1)
+mtext('frequency [Hz]', 2, 2.5, cex = 1)
 lines(trace$time + det$start/wave@samp.rate, trace$fund, lwd = 3, col = alpha(3, 0.8))
 abline(v = det/wave@samp.rate, lty = 2, lwd = 3, col = alpha(1, 0.8))
-dev.off()
 
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# Spec object ----
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-# Load wave
-audio_files = list.files('ANALYSIS/RESULTS/ARCHIVE/calls',  '*wav', full.names = T)
-wave = load.wave(audio_files[13], ffilter_from = 500)
-
-# Plot
-pdf(path_pdf_spec_object_example, 8, 4)
-par(mfrow = c(1, 2), oma = c(4, 4, 1, 1))
-better.spectro(wave, wl = 256, ovl = 250, ylim = c(700, 3500), mar = rep(1, 4))
-mtext('time [s]', 1, 3)
-mtext('frequency [Hz]', 2, 3)
 spec_object = create.spec.object(wave, freq_range = c(700, 3500),
                                  plot_it = F,
                                  thr_low = 0.45,
@@ -139,6 +129,7 @@ spec_object = create.spec.object(wave, freq_range = c(700, 3500),
                                  method = 'max',
                                  sum_one = TRUE)
 image(t(spec_object), col = hcl.colors(12, 'Blue-Yellow', rev = T), xaxt = 'n', yaxt = 'n', mar = rep(1, 4)) 
+text(x = 0.08, y = 0.92, labels = 'b)', font = 2)
 dev.off()
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -151,7 +142,7 @@ load(path_spcc_results)
 # Run pco and plot
 pco_out = pcoa(m)
 inds = rownames(m) %>% strsplit('@') %>% sapply(`[`, 2)
-pdf(path_pdf_pco, 4, 4)
+pdf(path_pdf_pco, 3.5, 4)
 plot(pco_out$vectors[,1:2], pch = 16, col = cols[as.numeric(inds)],
      xlab = 'dimension 1', ylab = 'dimension 2')
 dev.off()
