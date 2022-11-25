@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 16-11-2022
-# Date last modified: 23-11-2022
+# Date last modified: 25-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script runs spectrographic cross correlation on single wav files and constructs a 
 # distance matrix based on the output. 
@@ -21,7 +21,6 @@ wl = 256
 ovl = 250
 method = 'max'
 sum_one = TRUE
-cols = c('#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425')
 mc.cores = 4
 step_size = 15
 

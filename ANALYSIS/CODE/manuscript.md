@@ -35,7 +35,7 @@ APPLICATION
 
 \
 
-Simeon Q. Smeele $^{1,2,3,†,*}$, Stephen A. Tyndel $^{1,3,†}$, Barbara C. Klump $^{1}$, Mary Brooke McElreath $^{1,2}$, Gustavo Alarcon-Nieto $^{1,3}$ & Lucy M. Aplin $^{1,3,4}$
+Simeon Q. Smeele $^{1,2,3,†,*}$, Stephen A. Tyndel $^{1,3,†}$, Barbara C. Klump $^{1}$, Gustavo Alarcon-Nieto $^{1,3}$ & Lucy M. Aplin $^{1,3,4}$
 
 \fontsize{7}{12}\selectfont
 
@@ -60,11 +60,11 @@ $^*$Correspondence author. E-mail: <ssmeele@ab.mpg.de>
 
 1.  To better understand how vocalisations are used during interactions of multiple individuals captive studies with microphones on the animal are often performed. The resulting recordings are challenging to analyse, since microphones drift non-linearly and record the vocalisations of non-focal individuals as well as noise.
 
-2.  Here we present *callsync*, an R package designed to align recordings, detect and assign vocalisations, trace the fundamental frequency, filter out noise and perform basic analysis on the resulting clips.
+2.  Here we present `callsync`, an R package designed to align recordings, detect and assign vocalisations, trace the fundamental frequency, filter out noise and perform basic analysis on the resulting clips.
 
-3.  We present a case study where the pipeline is used on a new dataset of six captive cockatiels (*Nymphicus hollandicus*) wearing backpack microphones. We show that **xx** calls can be detected and assigned across two days of 3.5 hours of recording. **We use the resulting calls to show that individuals can be recognised based on xx, xx, xx features.**
+3.  We present a case study where the pipeline is used on a new dataset of six captive cockatiels (*Nymphicus hollandicus*) wearing backpack microphones. Recordings initially had drift of ~2 minutes, but were aligned up to ~2 seconds with our package. We detected and assigned 829 calls across two days of 3.5 hours of recording each. We also use function that trace the fundamental frequency and apply spectrographic cross correlation to show that calls coming from the same individual sound more similar. 
 
-4.  The *callsync* package can be used to go from raw recordings to a cleaned dataset of features. The package is designed to be modular and allow users to replace functions as they wish. We also discuss the challenges that might be faced in each step and how the available literature can provide alternatives for each step.
+4.  The `callsync` package can be used to go from raw recordings to a cleaned dataset of features. The package is designed to be modular and allow users to replace functions as they wish. We also discuss the challenges that might be faced in each step and how the available literature can provide alternatives for each step.
 
 **Keywords:** communication networks, bio acoustics, microphone alignment, recording segmentation
 
@@ -129,6 +129,8 @@ detect.and.assign(ffilter_from = 1100,           # from where to filter in Hz
                   keys_rec = c('_\\(', '\\)_'),  # how to recognise the recording in the path
                   keys_id = c('bird_', '_tag'))  # how to recognise the individiual/microphone in the path
 ```
+
+For the cockatiel dataset the function detected and assigned 1088 calls, 829 of which were retained after filtering. We manually assigned 174 calls in three chunks with a lot of activity and compared this ground truth table to the detections using the function `calc.perf`. The false positive rate was 1% (single false detection) and the true positive rate was 53%. 
 
 ![Example of the detection output. Black lines are the wave forms. Cyan dashed lines with shaded area in between are the detected calls.]("../RESULTS/figures/detections example.pdf")
 
