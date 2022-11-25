@@ -57,7 +57,7 @@ All scripts are in `ANALYSIS/CODE`:
 - 01_major_alignment.R
   - runs the `align` function to load the raw data, and write aligned segments/chunks to the `ANALYSIS/RESULTS/chunks` folder
 
-- 02_call_detection_and_asignment.R
+- 02_call_detection_and_assignment.R
   - runs the `detect.and.assign` function to load the chunks of the previous steps, detect calls, filter out the calls from the focal individual for each chunk and save the calls as seperate files in the `ANALYSIS/RESULTS/calls` folder
 
 - 03_trace_fundamental.R
