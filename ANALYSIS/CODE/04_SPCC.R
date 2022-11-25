@@ -5,7 +5,7 @@
 # Author: Simeon Q. Smeele
 # Description: This script runs spectrographic cross correlation on single wav files and constructs a 
 # distance matrix based on the output. 
-# source('ANALYSIS/CODE/cockatiel_dataset/04_SPCC.R')
+# source('ANALYSIS/CODE/04_SPCC.R')
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Set-up
@@ -22,6 +22,8 @@ ovl = 250
 method = 'max'
 sum_one = TRUE
 cols = c('#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425')
+mc.cores = 4
+step_size = 15
 
 # Audio files 
 audio_files = list.files(path_calls,  '*wav', full.names = T)
@@ -40,11 +42,12 @@ m = run.spcc(waves = waves,
              freq_range = freq_range,
              thr_low = thr_low,
              thr_high = thr_high,
+             step_size = step_size,
              wl = wl,
              ovl = ovl,
              method = method,
              sum_one = sum_one,
-             mc.cores = 4)
+             mc.cores = mc.cores)
 
 # Save
 save(m, file = path_spcc_results)
