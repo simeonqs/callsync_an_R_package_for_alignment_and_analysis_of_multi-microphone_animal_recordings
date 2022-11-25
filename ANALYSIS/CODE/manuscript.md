@@ -16,6 +16,7 @@ header-includes:
   \setcounter{bottomnumber}{3}
   \setcounter{totalnumber}{4}
   \usepackage[labelfont={footnotesize,bf},textfont=footnotesize]{caption}
+bibliography: bibliography.bib
 ---
 
 \fontsize{20}{12}\selectfont
@@ -69,9 +70,9 @@ $^*$Correspondence author. E-mail: <ssmeele@ab.mpg.de>
 
 # Introduction
 
-The study of vocal signals in animals is a critical tool for understanding the evolution of vocal communication. Recent innovations in on-animal recording technologies have allowed for a dramatic increase of fine scale bioacoustic data collection and research (cite many papers). Studying the ways that animals communicate in ‘real time’ allows us to untangle the complicated dynamics of how group members signal one another (zefi and whale work). These communication networks can help us understand how animals coordinate call response with movement (ari) as well as how group signatures form (budgies). However, as the capability of placing small recording devices on animals increases, so too does the need for tools to process the resulting data streams. Several publicly available R packages exist that measure acoustic parameters from single audio tracks (Seewave, TuneR, WarbleR), but to our knowledge, none address the critical issue of microphone clock drift and the ability to align and process multiple recordings. This poses a serious issue for those studying communication networks of multiple tagged individuals. In this paper, we apply a new R package, callsync, that aligns multiple misaligned audio files, detects vocalisations, assigns these to the focal individual and provides an analytical pipeline for the resulting synchronised data. 
+The study of vocal signals in animals is a critical tool for understanding the evolution of vocal communication. Recent innovations in on-animal recording technologies have allowed for a dramatic increase of fine scale bioacoustic data collection and research (cite many papers). Studying the ways that animals communicate in ‘real time’ allows us to untangle the complicated dynamics of how group members signal one another (zefi and whale work). These communication networks can help us understand how animals coordinate call response with movement (ari) as well as how group signatures form (budgies). However, as the capability of placing small recording devices on animals increases, so too does the need for tools to process the resulting data streams. Several publicly available R packages exist that measure acoustic parameters from single audio tracks (Seewave, TuneR, WarbleR), but to our knowledge, none address the critical issue of microphone clock drift and the ability to align and process multiple recordings. This poses a serious issue for those studying communication networks of multiple tagged individuals. In this paper, we apply a new R package, `callsync`, that aligns multiple misaligned audio files, detects vocalisations, assigns these to the focal individual and provides an analytical pipeline for the resulting synchronised data. 
 
-The primary target for use of this package are researchers that study animal communication systems within groups. The critical issue is that multiple microphones recording simultaneously can drift apart in time (citation). To make matters worse this drift is often non-linear (cite examples). Thus, if several microphone recorders (list examples of bats, etc) are placed on animals, it is critical for researchers to be able to line up all tracks so that calls can be assigned correctly to the focal individual (loudest track). The main functionality of callsync is to align audio tracks, detect calls from each track, determine which individual (even ones in relatively close proximity to one another) is vocalising and segment them, as well as take measurements of the given calls (see Figure X). However, callsync takes a modular approach to aligning, segmenting, and analysing audio tracks so that researchers can use only the components of the package that suit their needs. 
+The primary target for use of this package are researchers that study animal communication systems within groups. The critical issue is that multiple microphones recording simultaneously can drift apart in time (citation). To make matters worse this drift is often non-linear (cite examples). Thus, if several microphone recorders (list examples of bats, etc) are placed on animals, it is critical for researchers to be able to line up all tracks so that calls can be assigned correctly to the focal individual (loudest track). The main functionality of `callsync` is to align audio tracks, detect calls from each track, determine which individual (even ones in relatively close proximity to one another) is vocalising and segment them, as well as take measurements of the given calls (see Figure 1). However, `callsync` takes a modular approach to aligning, segmenting, and analysing audio tracks so that researchers can use only the components of the package that suit their needs. 
 
 ![Flowchart from the `callsync` package. The *alignment* module can be used to align multiple microphones that have non-linear temporal drift. The *detection* module can be used to detect vocalisations in each recording. The *assignment* module can be used to assign a vocalisation to the focal individual, making sure that vocalisations from conspecifics are excluded from the focal recording. The *tracing* module can be used to trace and analyse the fundamental frequency for each vocalisation. Filters can be applied to remove false alarms in the detection module. The final *analysis* module can be used to run spectrographic cross correlation and create a feature vector to compare across recordings.]("../RESULTS/figures/flowchart.pdf")
 
@@ -79,7 +80,7 @@ Current research packages that implement call alignment strategies are either us
 
 # Case study: cockatiel contact calls
 
-We present a case study to show how `callsync` functions can be included in a workflow (see Figure X). We used a dataset of domestic cockatiels (*Nymphicus hollandicus*). These birds are a part of an ongoing study at the Max Planck Institute of Animal Behavior. Birds were housed in several groups of six individuals in a 4x3x2.7m aviary facility. We equipped six cockatiels with a TS-systems EDIC-Mini E77 tag inside a sewn nylon backpack fitted via Teflon harness around the wings, with the total weight of all components under 7% of body weight. Audio recordings were scheduled to record for a maximum of 4 hours per day. Each microphone was automatically programmed to turn on and off daily at the same time. For the purposes of demonstration, two full days of recordings (3.5 hours each) were selected for processing where the microphones were scheduled to record from 7:30 until 11:30 in the morning. After several days of deployment, microphone recorders are removed and downloaded as .wav files directly onto the computer from the tag. These tags are placed into the appropriate folder (see workflow instructions) and processed in accordance with our package workflow. 
+We present a case study to show how `callsync` functions can be included in a workflow (see Figure 1). We used a dataset of domestic cockatiels (*Nymphicus hollandicus*). These birds are a part of an ongoing study at the Max Planck Institute of Animal Behavior. Birds were housed in several groups of six individuals in a 4x3x2.7m aviary facility. We equipped six cockatiels with a TS-systems EDIC-Mini E77 tag inside a sewn nylon backpack fitted via Teflon harness around the wings, with the total weight of all components under 7% of body weight. Audio recordings were scheduled to record for a maximum of 4 hours per day. Each microphone was automatically programmed to turn on and off daily at the same time. For the purposes of demonstration, two full days of recordings (3.5 hours each) were selected for processing where the microphones were scheduled to record from 7:30 until 11:30 in the morning. After several days of deployment, microphone recorders are removed and downloaded as .wav files directly onto the computer from the tag. These tags are placed into the appropriate folder (see workflow instructions) and processed in accordance with our package workflow. 
 
 ## Installation and set-up
 
@@ -109,59 +110,58 @@ align(chunk_size = 15,                          # how long should the chunks be 
       save_pdf = TRUE)                          # should a pdf be saved
 ```
 
-For cross correlation we load the chunks with additional minutes before and after (option `wing`) to ensure that overlap can be found. The cross correlation is performed using the function `simple.cc`, which takes two vectors (the binned energy content of two recordings) and calculates the absolute difference while sliding the two vectors over each other. It returns the position of minimum summed difference, or in other words the position of maximal overlap. This position is then used to align the recordings relative to the first recording and save chunks that are maximally aligned. Note that due to drift during the recording, the start and end times might still be seconds off; it is the overall alignment of the chunks that is optimised. The function also allows the user to create a pdf with wave forms per individual and a single page per chunk (see Figure X), to visually verify if alignment was successful. For our dataset all chunks aligned correctly without filter. If this is not the case the option `ffilter_from` can be set to apply a high-pass filter. Mis-aligned chunks can also be rerun individually using the option `chunk_seq`.
+For cross correlation we load the chunks with additional minutes before and after (option `wing`) to ensure that overlap can be found. The cross correlation is performed using the function `simple.cc`, which takes two vectors (the binned energy content of two recordings) and calculates the absolute difference while sliding the two vectors over each other. It returns the position of minimum summed difference, or in other words the position of maximal overlap. This position is then used to align the recordings relative to the first recording and save chunks that are maximally aligned. Note that due to drift during the recording, the start and end times might still be seconds off; it is the overall alignment of the chunks that is optimised. The function also allows the user to create a pdf with wave forms per individual and a single page per chunk (see Figure 2), to visually verify if alignment was successful. For our dataset all chunks aligned correctly without filter. If this is not the case the option `ffilter_from` can be set to apply a high-pass filter. Mis-aligned chunks can also be rerun individually using the option `chunk_seq`.
 
 ![Example of the alignment output. Black lines represent the summed absolute amplitude per bin (= 0.5 seconds). Recordings are aligned relative to the first recording (which starts at 0). Note that recording 2-5 start ~2 minutes earlier, but are still aligned. The title displays the start time of the chunk in the raw recording.]("../RESULTS/figures/alignment example.pdf")
 
 ## Call detection and assignment
 
-The next step is to detect calls and assign them to the correct individual.
+The next step is to detect calls in each set of chunks and assign them to the correct individual. The `detect.and.assign` function loads the chunks using the function `load.wave` where it optionally applies a high-pass filter to reduce the amount of low frequency noise. To detect calls it calls the function `call.detect.multiple`, which can detect multiple calls in an R wave object. It first applies the `env` function from the *seewave* package to create a smooth Hilbert amplitude envelope. It then detects all the points on the envelope which are above a certain threshold relative to the maximum of the envelope. After removing detections that are shorter than a set minimum duration or longer than a set maximum it returns all the start and end times as a data frame. Because the microphones on non-focal individuals are very likely to record the calls of the vocalising individual as well, we implemented a step that assigns the detected calls to the correct individual. For this `detect.and.assign` calls the function `call.assign`, which runs through all the detections in a given chunk for a given individual and runs the `call.detect` function to more precisely determine the start and end time of the call. It then ensures that minor temporal drift is corrected by rerunning the `simple.cc` function. After alignment it calculates the summed absolute energy content on all recordings for the time frame when the call was detected and compares this to the focal recording. If the focal recording is louder by a set percentage than the second loudest recording, the detection is saved as a separate wav file. If not, the detection is discarded. The function also allows the user to create a pdf with all the detections (see Figure 3 for a short example).
 
-For detection we load the chunks using the wrapper function `load.wave` where we apply a high-pass filter from 1100 Hz. To detect calls we used the `call.detect.multiple` which can detect multiple calls in an R wave object. It first applies the `env` function from the *seewave* package with `msmooth = c(1000, 95)` create a smooth Hilbert amplitude envelope. It then detects all the points on the envelope which are above a certain threshold relative to the maximum of the envelope. After removing detections that are shorter than a set minimum duration it returns all the start and end times as a dataframe.
-
-Because the microphones on non-focal individuals are very likely to record the calls of the vocalising individual as well, we implemented a step that assigns the detected calls to the correct individual. This step runs through all the detections in a given chunk for a given individual and runs the `call.detect` function to more precisely determine the start and end time of the call. It then aligns this call with all the recordings of all other individuals by rerunning the `simple.cc` function to ensure that minor temporal drift is corrected. After alignment it calculates the summed absolute energy content for the time frame when the call was detected on all recordings and compares this to the focal recording. If the focal recording is the loudest, the detection is saved as a separate wav file. If not, the detection is discarded. The function also allows the user to create a pdf with all the detections (see Figure X for a short example).
+``` r
+detect.and.assign(ffilter_from = 1100,           # from where to filter in Hz
+                  threshold = 0.4,               # fraction of maximum of envelope for detection
+                  msmooth = c(1000, 95),         # smoothening argument for `env`
+                  min_dur = 0.1,                 # minimum duration in seconds for acceptance
+                  max_dur = 0.3,                 # maximum duration in seconds for acceptance
+                  step_size = 1/50,              # bin size for summing in seconds
+                  wing = 10,                     # how many extra seconds to load for alignment
+                  keys_rec = c('_\\(', '\\)_'),  # how to recognise the recording in the path
+                  keys_id = c('bird_', '_tag'))  # how to recognise the individiual/microphone in the path
+```
 
 ![Example of the detection output. Black lines are the wave forms. Cyan dashed lines with shaded area in between are the detected calls.]("../RESULTS/figures/detections example.pdf")
 
 ## Analysis of single calls and call comparison
 
-To analyse the calls, the short wav clips were loaded and the `call.detect` function was rerun to determine the start and end times of the call. The wave objects were then resized to only include the call. To trace the fundamental frequency we applied the `trace.fund` function to the resized wave objects:
+To analyse the calls, the short wav clips were loaded and the function `call.detect` was rerun to determine the start and end times of the call. The wave objects were then resized to only include the call (`new_wave`). To trace the fundamental frequency we applied the `trace.fund` function to the resized wave objects. We ran the latter step in parallel using the function `mclapply` from the package *parallel* (see Figure 4a for an example).
 
 ``` r
-traces = mclapply(new_waves, function(new_wave)
-  trace.fund(new_wave, spar = spar, freq_lim = freq_lim, thr = thr_trace, hop = hop,
-             noise_factor = noise_factor), mc.cores = mc.cores)
+traces = mclapply(new_waves, function(new_wave)  # apply the function to each new_wave
+  trace.fund(wave = new_wave,                    # use the new_wave
+             spar = 0.3,                         # smoothing argument for the `smooth.spline` function
+             freq_lim = c(1.2, 3.5),             # only consider trace between 1.2 and 3.5 Hz 
+             thr = 0.15,                         # threshold for detection, fraction of max of spectrum
+             hop = 5,                            # skip five samples per step
+             noise_factor = 1.5),                # only accept if trace is 1.5 times greater than noise
+  mc.cores = 4)                                  # run on four threads, has to be 1 on Windows
 ```
 
-We used the `mclapply` function from *parallel* to run multiple tracings in parallel. We then used `measure.trace.multiple` to take basic measurements on the resulting trace:
+![a) Spectrogram of a cockatiel call with start and end (black dashed lines) and the fundamental frequency trace (green solid line). b) Noise reduced spectrogram where darker colours indicate higher intensity.]("../RESULTS/figures/spec_object and trace example")
+
+The call detection step also picks up on a lot of noise (birds scratching, flying, walking around) as well as calls. We therefore ran a final step to filter the measurements and traces before these were saved.
 
 ``` r
-measurements = measure.trace.multiple(traces, new_waves, waves, snr = snr, 
-                                      path_pdf = path_pdf_traces)
+keep = measurements$prop_missing_trace < 0.1 &                     # max 10% missing points
+  measurements$signal_to_noise > 5 &                               # signal to noise at least 5
+  measurements$band_hz > 600 &                                     # bandwidth at least 600 Hz
+measurements = measurements[keep,]                                 # keep only these measurements
+traces = traces[keep]                                              # and these traces
 ```
 
-An example of the resulting trace can be seen in Figure X. 
+Another way to analyse calls is to measure their similarity directly. A frequently used method is SPCC - spectrographic cross correlation [@cortopassi2000comparison], where two spectrograms are slid over each other and the pixelwise difference is computed for each step. At the point where the signals maximally overlap one will find the minimal difference. This score is than used as a measure of acoustic distance between two calls. The function `run.spcc` runs SPCC and includes several methods to reduce noise in the spectrogram before running cross correlation (for an example see Figure 4b). To visualise the resulting feature vector from running SPCC on the cockatiel calls we used principle coordinate analysis, and plotted the first two coordinates in. Calls clearly cluster by individual, but there is also a lot of overlap between individuals (see Figure 5).
 
-![Spectrogram of a cockatiel call with start and end (black dashed lines) and the fundamental frequency trace (green solid line).]("../RESULTS/figures/trace example.pdf")
-
-The call detection step also picks up on a lot of noise (birds scratching, flying, walking around) as well as calls. We therefore ran a final step to filter the measurements and traces before these were saved:
-
-``` r
-keep = measurements$prop_missing_trace < 0.1 & 
-  measurements$signal_to_noise > 5 &
-  measurements$band_hz > 600 & 
-  measurements$duration_s > 0.10 & measurements$duration_s < 0.3
-measurements = measurements[keep,]
-traces = traces[keep]
-```
-
-Another way to analyse calls is to measure their similarity directly. A frequently used method is spectrographic cross correlation (SPCC), where two spectrograms are slid over each other and the pixelwise difference is computed for each step. At the point where the signals maximally overlap one will find the minimal difference. This score is than used as a measure of acoustic distance between two calls. The function `xxx` runs SPCC and includes several methods to reduce noise in the spectrogram before running cross correlation (for an example see Figure X). 
-
-![Example spectrogram (left) and noise reduced spectrogram (right) of a cockatiel call. Darker colours indicate higher intensity.]("../RESULTS/figures/spec_object example.pdf")
-
-To visualise the resulting of SPCC on the cockatiel calls we used principle coordinate analysis, and plotted the first two coordinates in Figure X. 
-
-![Call distribution in PCO space. Dots represents calls and are coloured by individual.]("../RESULTS/figures/pco.pdf")
+![Call distribution in principle coordinate space. Dots represents calls and are coloured by individual.]("../RESULTS/figures/pco.pdf")
 
 # Discussion
 
@@ -169,12 +169,11 @@ To visualise the resulting of SPCC on the cockatiel calls we used principle coor
 
 # Acknowledgements
 
-**Thank yous.** We thank Dr. Ariana Strandburg-Peshkin for early feedback. 
-
-**Funding.** SQS and SAT received from the International Max Planck Research School for Organismal Biology and the International Max Planck Research School for Quantitative Behaviour, Ecology and Evolution. SAT received additional funding from a DAAD PhD fellowship. 
-
-The authors declare no conflicts of interest.
+We thank Dr. Ariana Strandburg-Peshkin for early feedback. SQS and SAT received from the International Max Planck Research School for Organismal Biology and the International Max Planck Research School for Quantitative Behaviour, Ecology and Evolution. SAT received additional funding from a DAAD PhD fellowship. The authors declare no conflicts of interest.
 
 # Data accessibility
 
+All code is publicly available on GitHub (**link**). All data and code is also publicly available on Edmond (**link**) A DOI for the Edmond repository will be added when the manuscript is accepted and assigned a DOI. The `callsync` package can be installed from CRAN and a developmental version can be found on GitHub (<https://github.com/simeonqs/callsync>).
 
+# References
+\
