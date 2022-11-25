@@ -33,8 +33,7 @@ path_example_chunk_before =
   'ANALYSIS/RESULTS/figures/p4_c7_bird_01_bg_060_tag_07_file_4_(2021_07_16-05_54_59)_ASWMUX221163.pdf'
 path_example_chunk_after = 'ANALYSIS/RESULTS/figures/alignment example.pdf'
 path_pdf_example_detections = 'ANALYSIS/RESULTS/figures/detections example.pdf'
-path_pdf_spec_object_example = 'ANALYSIS/RESULTS/figures/spec_object example.pdf'
-path_pdf_trace_example = 'ANALYSIS/RESULTS/figures/trace example.pdf'
+path_pdf_trace_and_spec_object_example = 'ANALYSIS/RESULTS/figures/spec_object and trace example.pdf'
 path_ground_truth_tables = 'ANALYSIS/DATA'
 path_perf = 'ANALYSIS/RESULTS/performance/performance.txt'
   
