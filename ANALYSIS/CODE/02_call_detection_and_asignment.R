@@ -4,7 +4,7 @@
 # Date last modified: 24-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script loads chunks, detects calls and assigns them to individuals.
-# source('ANALYSIS/CODE/02_call_detection_and_asignment.R')
+# source('ANALYSIS/CODE/02_call_detection_and_assignment.R')
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Set-up
