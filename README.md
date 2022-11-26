@@ -6,12 +6,24 @@ This repo is associated with the following article:
 Analysis of backpack microphone recordings using *callsync*
 ```
 
+**NOTE**: This repo is under development. Please contact <ssmeele@ab.mpg.de> if you want to test an early version. 
+
 ------------------------------------------------
 # Requirements
 
 R version 4.1.0 or later. Earlier versions might work if you replace the `|>` function with `%>%`.
 
 Required packages are loaded in the `ANALYSIS/CODE/00_set_up.R` script.
+
+The GitHub repository is not complete. Data files and intermediate results are too large and are shared on Edmond. If you want to reproduce the results download the data here (**<- make link when uploaded**). If you want to run on your own data create the following directories:
+
+* `ANALYSIS/DATA` with the data (can be any subdirectory structure within)
+* `ANALYSIS/RESULTS/calls`
+* `ANALYSIS/RESULTS/chunks`
+* `ANALYSIS/RESULTS/figures`
+* `ANALYSIS/RESULTS/performance`
+* `ANALYSIS/RESULTS/SPCC`
+* `ANALYSIS/RESULTS/traces`
 
 ------------------------------------------------
 # Workflow
