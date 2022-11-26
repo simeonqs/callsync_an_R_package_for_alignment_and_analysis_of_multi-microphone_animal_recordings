@@ -3,7 +3,7 @@
 This repo is associated with the following article: 
 
 ```
-reference
+Analysis of backpack microphone recordings using *callsync*
 ```
 
 ------------------------------------------------
