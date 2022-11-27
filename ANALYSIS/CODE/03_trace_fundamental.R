@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 16-11-2022
-# Date last modified: 25-11-2022
+# Date last modified: 27-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script takes a path for a folder with .wav files. It then runs an amplitude envelope
 # with a threshold to detect calls (multiple notes are possible). Within each note the fundamental frequency 
@@ -56,6 +56,7 @@ message('Tracing.')
 traces = mclapply(new_waves, function(new_wave)
   trace.fund(new_wave, spar = spar, freq_lim = freq_lim, thr = thr_trace, hop = hop,
              noise_factor = noise_factor), mc.cores = mc.cores)
+names(traces) = basename(audio_files)
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # ANALYSIS: measurements ----
@@ -94,7 +95,6 @@ for(i in c(signal, noise)){
 dev.off()
 
 # Save measurements
-names(traces) = basename(audio_files[keep])
 save(traces, file = path_traces)
 save(measurements, file = path_measurements)
 message('All done and saved.')
