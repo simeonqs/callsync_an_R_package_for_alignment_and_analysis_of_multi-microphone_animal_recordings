@@ -49,12 +49,6 @@ The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repositor
 All analysis related files are in `ANALYSIS`.
 
 All scripts are in `ANALYSIS/CODE`:
-
-- `bibliography.bib` contains all the reference in bibtex format
-  
-- `manuscript.md` contains the manuscript in markdown format
-  
-- `manuscript.pdf` unfortunately RStudio outputs the pdf of from the markdown here as well
   
 - `00_set_up.R`
   - installs libraries if not already installed
@@ -112,6 +106,12 @@ All results can be found in `ANALYSIS/RESULTS`:
 - `traces` contains the results of the tracing and measurement steps
   
 Other than the `ANALYSIS` folder the main folder also contains:
+
+- `bibliography.bib` contains all the reference in bibtex format
+  
+- `manuscript.md` contains the manuscript in markdown format
+  
+- `manuscript.pdf` unfortunately RStudio outputs the pdf of from the markdown here as well
 
 - `README.md` the file you are reading now, should explain everything you need to know
 
