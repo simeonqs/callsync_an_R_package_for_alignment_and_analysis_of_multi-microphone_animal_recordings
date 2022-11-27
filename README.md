@@ -44,7 +44,7 @@ This will source all scripts in the correct order. Some of the steps do take sev
 ------------------------------------------------
 # Meta data
 
-The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the ANALYSIS folder everything should work.
+The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the `ANALYSIS` folder everything should work.
 
 All analysis related files are in `ANALYSIS`.
 
