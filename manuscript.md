@@ -74,7 +74,7 @@ The study of vocal signals in animals is a critical tool for understanding the e
 
 The primary target for use of this package are researchers that study animal communication systems within groups. The critical issue is that multiple microphones recording simultaneously can drift apart in time [@schmid2010interaction]. To make matters worse this drift is often non-linear [@anisimov2014reconstruction]. Thus, if several microphone recorders (whales; @miller2009large,@hayes2000inexpensive, bats; @stidsholt20192) are placed on animals, it is critical for researchers to be able to line up all tracks so that calls can be assigned correctly to the focal individual (loudest track). The main functionality of `callsync` is to align audio tracks, detect calls from each track, determine which individual (even ones in relatively close proximity to one another) is vocalising and segment them, as well as take measurements of the given calls (see Figure 1). However, `callsync` takes a modular approach to aligning, segmenting, and analysing audio tracks so that researchers can use only the components of the package that suit their needs. 
 
-![Flowchart from the `callsync` package. The *alignment* module can be used to align multiple microphones that have non-linear temporal drift. The *detection* module can be used to detect vocalisations in each recording. The *assignment* module can be used to assign a vocalisation to the focal individual, making sure that vocalisations from conspecifics are excluded from the focal recording. The *tracing* module can be used to trace and analyse the fundamental frequency for each vocalisation. Filters can be applied to remove false alarms in the detection module. The final *analysis* module can be used to run spectrographic cross correlation and create a feature vector to compare across recordings.]("../RESULTS/figures/flowchart.pdf")
+![Flowchart from the `callsync` package. The *alignment* module can be used to align multiple microphones that have non-linear temporal drift. The *detection* module can be used to detect vocalisations in each recording. The *assignment* module can be used to assign a vocalisation to the focal individual, making sure that vocalisations from conspecifics are excluded from the focal recording. The *tracing* module can be used to trace and analyse the fundamental frequency for each vocalisation. Filters can be applied to remove false alarms in the detection module. The final *analysis* module can be used to run spectrographic cross correlation and create a feature vector to compare across recordings.]("ANALYSIS/RESULTS/figures/flowchart.pdf")
 
 Current research packages that implement call alignment strategies are either used in matlab[@malinka2020autonomous,@anisimov2014reconstruction] or c++ [@gill2015patterns]. However these tools have not, up to now, been adapted for the R environment. Many of these tools are not documented publicly nor open source, and can require high licensing fees (i.e Matlab). While the design of this package is best suited to contexts where all microphones exist in the same spatial area, it is the goal that it can be adapted to more difficult contexts. This package is publicly available on github, is beginner friendly with strong documentation, and does not require extensive programming background. This open source tool will allow researchers to expand the study of bioacoustics and solve an issue that impedes detailed analysis of group-level calls. We will provide a case study and workflow that will demonstrate the use of this package. 
 
@@ -112,7 +112,7 @@ align(chunk_size = 15,                          # how long should the chunks be 
 
 For cross correlation, `align` loads the chunks with additional minutes before and after (option `wing`) to ensure that overlap can be found. The cross correlation is performed using the function `simple.cc`, which takes two vectors (the binned energy content of two recordings) and calculates the absolute difference while sliding the two vectors over each other. It returns the position of minimum summed difference, or in other words the position of maximal overlap. This position is then used to align the recordings relative to the first recording and save chunks that are maximally aligned. Note that due to drift during the recording, the start and end times might still be seconds off; it is the overall alignment of the chunks that is optimised. The function also allows the user to create a pdf with waveforms of each individual recording and a single page per chunk (see Figure 2), to visually verify if alignment was successful. For our dataset all chunks aligned correctly without a filter. If this is not the case the option `ffilter_from` can be set to apply a high-pass filter to improve alignment. Mis-aligned chunks can also be rerun individually using the option `chunk_seq` in order to avoid re-running the entire dataset.
 
-![Example of the alignment output. Black lines represent the summed absolute amplitude per bin (= 0.5 seconds). Recordings are aligned relative to the first recording (which starts at 0). Note that recording 2-5 start ~2 minutes earlier, but are still aligned. The title displays the start time of the chunk in the raw recording.]("../RESULTS/figures/alignment example.pdf")
+![Example of the alignment output. Black lines represent the summed absolute amplitude per bin (= 0.5 seconds). Recordings are aligned relative to the first recording (which starts at 0). Note that recording 2-5 start ~2 minutes earlier, but are still aligned. The title displays the start time of the chunk in the raw recording.]("ANALYSIS/RESULTS/figures/alignment example.pdf")
 
 ## Call detection and assignment
 
@@ -133,7 +133,7 @@ detect.and.assign(ffilter_from = 1100,           # from where to filter in Hz
 For the cockatiel dataset the function detected and assigned 1088 calls, 829 of which were retained after filtering. We manually assigned 174 calls in three chunks with a lot of activity and compared the performance of the `detect.and.assign` function to manually labelled data. The ground truth was performed using the function `calc.perf`. The false positive rate was 1% (single false detection) and the true positive rate was 53%. 
 
 
-![Example of the detection output. Black lines are the wave forms. Cyan dashed lines with shaded area in between are the detected calls.]("../RESULTS/figures/detections example.pdf")
+![Example of the detection output. Black lines are the wave forms. Cyan dashed lines with shaded area in between are the detected calls.]("ANALYSIS/RESULTS/figures/detections example.pdf")
 
 ## Analysis of single calls and call comparison
 
@@ -150,7 +150,7 @@ traces = mclapply(new_waves, function(new_wave)  # apply the function to each ne
   mc.cores = 4)                                  # run on four threads, has to be 1 on Windows
 ```
 
-![a) Spectrogram of a cockatiel call with start and end (black dashed lines) and the fundamental frequency trace (green solid line). b) Noise reduced spectrogram where darker colours indicate higher intensity.]("../RESULTS/figures/spec_object and trace example")
+![a) Spectrogram of a cockatiel call with start and end (black dashed lines) and the fundamental frequency trace (green solid line). b) Noise reduced spectrogram where darker colours indicate higher intensity.]("ANALYSIS/RESULTS/figures/spec_object and trace example")
 
 The call detection step also picks up on a lot of noise (birds scratching, flying, walking around) as well as calls. We therefore ran a final step to filter the measurements and traces before these were saved.
 
@@ -164,7 +164,7 @@ traces = traces[keep]                                              # and these t
 
 Another way to analyse calls is to measure their similarity directly. A frequently used method is SPCC - spectrographic cross correlation [@cortopassi2000comparison], where two spectrograms are slid over each other and the pixelwise difference is computed for each step. At the point where the signals maximally overlap one will find the minimal difference. This score is then used as a measure of acoustic distance between two calls. The function `run.spcc` runs SPCC and includes several methods to reduce noise in the spectrogram before running cross correlation (for an example see Figure 4b). To visualise the resulting feature vector from running SPCC on the cockatiel calls we used principal coordinate analysis, and plotted the first two coordinates in. Calls clearly cluster by individual, but there is also a lot of overlap between individuals (see Figure 5).
 
-![Call distribution in principle coordinate space. Dots represents calls and are coloured by individual.]("../RESULTS/figures/pco.pdf")
+![Call distribution in principle coordinate space. Dots represents calls and are coloured by individual.]("ANALYSIS/RESULTS/figures/pco.pdf")
 
 # Discussion
 
