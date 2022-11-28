@@ -1,13 +1,13 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 14-11-2022
-# Date last modified: 23-11-2022
+# Date last modified: 27-11-2022
 # Author: Simeon Q. Smeele
 # Description: This script sets up the R environment for all other scripts. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Loading libraries
-libraries = c('seewave', 'tuneR', 'stringr', 'dplyr', 'scales', 'callsync', 'parallel')
+libraries = c('seewave', 'tuneR', 'stringr', 'dplyr', 'scales', 'callsync', 'parallel', 'umap')
 for(lib in libraries){
   if(! lib %in% installed.packages()) lapply(lib, install.packages)
   lapply(libraries, require, character.only = TRUE)
@@ -27,7 +27,7 @@ path_pdf_traces = 'ANALYSIS/RESULTS/traces/traces.pdf'
 path_pdf_samples_filtering = 'ANALYSIS/RESULTS/traces/samples filtering.pdf'
 path_pdf_samples_spec_objects = 'ANALYSIS/RESULTS/SPCC/samples spec_objects.pdf'
 path_spcc_results = 'ANALYSIS/RESULTS/SPCC/spcc_results.RData'
-path_pdf_pco = 'ANALYSIS/RESULTS/figures/pco.pdf'
+path_pdf_umap = 'ANALYSIS/RESULTS/figures/umap.pdf'
 path_figures = 'ANALYSIS/RESULTS/figures'
 path_example_chunk_before = 
   'ANALYSIS/RESULTS/figures/p4_c7_bird_01_bg_060_tag_07_file_4_(2021_07_16-05_54_59)_ASWMUX221163.pdf'

@@ -140,9 +140,9 @@ dev.off()
 load(path_spcc_results)
 
 # Run pco and plot
-pco_out = pcoa(m)
-inds = rownames(m) %>% strsplit('@') %>% sapply(`[`, 2)
-pdf(path_pdf_pco, 3.5, 4)
-plot(pco_out$vectors[,1:2], pch = 16, col = cols[as.numeric(inds)],
+umap_out = umap(m)
+inds = rownames(m) %>% strsplit('@') %>% sapply(`[`, 2) %>% as.factor %>% as.integer
+pdf(path_pdf_umap, 3.5, 4)
+plot(umap_out$layout, pch = 16, col = alpha(cols[as.numeric(inds)], 0.8),
      xlab = 'dimension 1', ylab = 'dimension 2')
 dev.off()

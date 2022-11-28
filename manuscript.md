@@ -162,9 +162,9 @@ measurements = measurements[keep,]                                 # keep only t
 traces = traces[keep]                                              # and these traces
 ```
 
-Another way to analyse calls is to measure their similarity directly. A frequently used method is SPCC - spectrographic cross correlation [@cortopassi2000comparison], where two spectrograms are slid over each other and the pixelwise difference is computed for each step. At the point where the signals maximally overlap one will find the minimal difference. This score is then used as a measure of acoustic distance between two calls. The function `run.spcc` runs SPCC and includes several methods to reduce noise in the spectrogram before running cross correlation (for an example see Figure 4b). To visualise the resulting feature vector from running SPCC on the cockatiel calls we used principal coordinate analysis, and plotted the first two coordinates in. Calls clearly cluster by individual, but there is also a lot of overlap between individuals (see Figure 5).
+Another way to analyse calls is to measure their similarity directly. A frequently used method is SPCC - spectrographic cross correlation [@cortopassi2000comparison], where two spectrograms are slid over each other and the pixelwise difference is computed for each step. At the point where the signals maximally overlap one will find the minimal difference. This score is then used as a measure of acoustic distance between two calls. The function `run.spcc` runs SPCC and includes several methods to reduce noise in the spectrogram before running cross correlation (for an example see Figure 4b). To visualise the resulting feature vector from running SPCC on the cockatiel calls we used the function `umap` from the *umap* package [@umap] to run uniform manifold approximation, and plotted the first two dimensions. Calls clearly cluster by individual, but there is also a lot of overlap between individuals (see Figure 5).
 
-![Call distribution in principle coordinate space. Dots represents calls and are coloured by individual.]("ANALYSIS/RESULTS/figures/pco.pdf")
+![Call distribution in uniform manifold approximation space. Dots represents calls and are coloured by individual.]("ANALYSIS/RESULTS/figures/umap.pdf")
 
 # Discussion
 
