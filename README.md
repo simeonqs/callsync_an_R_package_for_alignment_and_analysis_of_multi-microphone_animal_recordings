@@ -111,7 +111,7 @@ Other than the `ANALYSIS` folder the main folder also contains:
   
 - `manuscript.md` contains the manuscript in markdown format
   
-- `manuscript.pdf` unfortunately RStudio outputs the pdf of from the markdown here as well
+- `manuscript.pdf` the manuscript as pdf
 
 - `README.md` the file you are reading now, should explain everything you need to know
 
