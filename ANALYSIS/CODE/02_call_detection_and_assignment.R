@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 14-11-2022
-# Date last modified: 24-11-2022
+# Date last modified: 18-12-2022
 # Author: Simeon Q. Smeele
 # Description: This script loads chunks, detects calls and assigns them to individuals.
 # source('ANALYSIS/CODE/02_call_detection_and_assignment.R')
@@ -18,8 +18,6 @@ min_dur = 0.1
 max_dur = 0.3
 step_size = 1/50 
 wing = 10 
-keys_id = c('bird_', '_tag')
-keys_rec = c('_\\(', '\\)_')
 all_files = NULL
 save_files = TRUE
 
