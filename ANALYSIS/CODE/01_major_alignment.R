@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 14-11-2022
-# Date last modified: 22-11-2022
+# Date last modified: 18-12-2022
 # Author: Simeon Q. Smeele
 # Description: This script runs the partitioning and alignment of raw recordings.
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -19,9 +19,8 @@ keys_id = c('ASWMUX', '.wav')
 blank = 15
 wing = 10
 ffilter_from = NULL
-all_files = list.files(path_recordings, full.names = T, recursive = T)
-# all_files = all_files[str_detect(all_files, 'file_3')]
-  
+all_files = NULL
+
 # Run main function
 align(chunk_size = chunk_size,
       all_files = all_files,
