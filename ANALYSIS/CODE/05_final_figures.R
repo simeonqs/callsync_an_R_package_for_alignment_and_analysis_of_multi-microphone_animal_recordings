@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 17-11-2022
-# Date last modified: 23-11-2022
+# Date last modified: 03-01-2023
 # Author: Simeon Q. Smeele
 # Description: This script plot the final figures for the paper. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -143,6 +143,6 @@ load(path_spcc_results)
 umap_out = umap(m)
 inds = rownames(m) %>% strsplit('@') %>% sapply(`[`, 2) %>% as.factor %>% as.integer
 pdf(path_pdf_umap, 3.5, 4)
-plot(umap_out$layout, pch = 16, col = alpha(cols[as.numeric(inds)], 0.8),
+plot(umap_out$layout, pch = as.numeric(inds), col = alpha(cols[as.numeric(inds)], 0.8),
      xlab = 'dimension 1', ylab = 'dimension 2')
 dev.off()
