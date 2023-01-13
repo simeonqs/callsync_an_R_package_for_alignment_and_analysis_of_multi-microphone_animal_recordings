@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 17-11-2022
-# Date last modified: 03-01-2023
+# Date last modified: 13-01-2023
 # Author: Simeon Q. Smeele
 # Description: This script plot the final figures for the paper. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -55,7 +55,7 @@ all_files = all_files[str_detect(all_files, '2021_07_16-05_54_59@150')]
 
 # Run function
 ffilter_from = 1100
-threshold = 0.4
+threshold = 0.18
 msmooth = c(1000, 95)
 min_dur = 0.1 
 max_dur = 0.3
@@ -64,6 +64,7 @@ wing = 10
 keys_id = c('bird_', '_tag')
 keys_rec = c('_\\(', '\\)_')
 save_files = FALSE
+save_extra = 0.05
 d = detect.and.assign(all_files = all_files,
                       path_chunks = NULL,
                       path_calls = NULL,
@@ -80,16 +81,16 @@ d = detect.and.assign(all_files = all_files,
 pdf(path_pdf_example_detections, 10, 5)
 par(mfrow = c(6, 1), mar = c(0, 0, 0, 0), oma = c(5, 1, 1, 1))
 for(i in 1:length(all_files)){
-  plot(readWave(all_files[i], from = 7*60+30, to = 8*60+30, units = 'seconds'), 
+  plot(readWave(all_files[i], from = 7*60+35, to = 8*60+5, units = 'seconds'), 
        yaxt = 'n', xaxt = 'n', xlab = '')
   bird = all_files[i] |> strsplit('@') |> sapply(`[`, 2)
   sub = d[str_detect(d$file, bird),]
   for(j in 1:nrow(sub)){
-    rect(xleft = sub$start[j]/22050-7*60-30-0.1, xright = sub$end[j]/22050-7*60-30+0.1, 
+    rect(xleft = sub$start[j]/22050-7*60-35-0.1, xright = sub$end[j]/22050-7*60-35+0.1, 
          ybottom = par("usr")[3], ytop = par("usr")[4],
-         border = NA, col = alpha('cyan3', 0.3))
-    abline(v = sub$start[j]/22050-7*60-30-0.1, lty = 2, col = 'cyan3', lwd = 2)
-    abline(v = sub$end[j]/22050-7*60-30+0.1, lty = 2, col = 'cyan3', lwd = 2)
+         border = NA, col = alpha('#3a586e', 0.3))
+    abline(v = sub$start[j]/22050-7*60-35-0.1, lty = 2, col = '#3a586e', lwd = 2)
+    abline(v = sub$end[j]/22050-7*60-35+0.1, lty = 2, col = '#3a586e', lwd = 2)
   }
 }
 axis(1, cex.axis = 1.5)
@@ -102,10 +103,10 @@ dev.off()
 
 # List files and load wave
 audio_files = list.files('ANALYSIS/RESULTS/calls',  '*wav', full.names = T)
-wave = load.wave(audio_files[1], ffilter_from = 500)
+wave = load.wave(audio_files[2], ffilter_from = 500)
 
 # Detect trace
-det = call.detect(wave, threshold = c(0.37, 0.47))
+det = call.detect(wave, threshold = c(0.3, 0.3))
 trace = trace.fund(wave[det$start:det$end], freq_lim = c(1.2, 3.5), thr = 0.15, spar = 0.3, 
                    noise_factor = 1.5)
 
