@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 16-11-2022
-# Date last modified: 27-11-2022
+# Date last modified: 11-01-2023
 # Author: Simeon Q. Smeele
 # Description: This script takes a path for a folder with .wav files. It then runs an amplitude envelope
 # with a threshold to detect calls (multiple notes are possible). Within each note the fundamental frequency 
@@ -25,8 +25,8 @@ audio_files = list.files(path_calls,  '*wav', full.names = T)
 # Settings
 set.seed(1)
 ffilter_from = 700 # from where to filter (Hz) the wave when loading
-threshold = c(0.37, 0.47) # threshold for amplitude envelope when detecting call
-msmooth = c(500, 95) # smoothening settings of amplitude envelope
+threshold = c(0.3, 0.3) # threshold for amplitude envelope when detecting call
+msmooth = c(700, 95) # smoothening settings of amplitude envelope
 
 thr_trace = 0.15 # threshold for detection of fundamental (amplitude for lowest value of spectrum)
 hop = 5 # hop for tracing
@@ -75,8 +75,8 @@ measurements = measure.trace.multiple(traces = traces,
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Filter measurements and traces object
-keep = measurements$prop_missing_trace < 0.15 & 
-  measurements$signal_to_noise > 4 &
+keep = measurements$prop_missing_trace < 0.1 & 
+  measurements$signal_to_noise > 6 &
   measurements$band_hz > 400 
 mb = measurements
 measurements = measurements[keep,]
