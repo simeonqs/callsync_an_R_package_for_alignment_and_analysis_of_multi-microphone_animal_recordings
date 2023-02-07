@@ -16,7 +16,7 @@ R version 4.1.0 or later. Earlier versions might work if you replace the `|>` fu
 
 Required packages are loaded in the `ANALYSIS/CODE/00_set_up.R` script.
 
-The GitHub repository is not complete. Data files and intermediate results are too large and are shared on Edmond. If you want to reproduce the results download the data here (**<- make link when uploaded**). If you want to run on your own data create the following directories:
+The GitHub repository is not complete. Data files and intermediate results are too large and are shared on Edmond. If you want to reproduce the results download the data here (<https://edmond.mpdl.mpg.de/privateurl.xhtml?token=05b4aa17-a9bd-44ac-b62b-bdf620aceebb>). If you want to run on your own data create the following directories:
 
 * `ANALYSIS/DATA` with the data (can be any subdirectory structure within)
 * `ANALYSIS/RESULTS/calls`
@@ -29,7 +29,7 @@ The GitHub repository is not complete. Data files and intermediate results are t
 ------------------------------------------------
 # Workflow
 
-The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the `ANALYSIS` folder everything should work.
+The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repository (<https://edmond.mpdl.mpg.de/privateurl.xhtml?token=05b4aa17-a9bd-44ac-b62b-bdf620aceebb>). Once these are place in the `ANALYSIS` folder everything should work.
 
 Make sure your working directory is the main repo folder. This is automatically the case if you open the `project.Rproj` file and run everything from there.
 
