@@ -3,7 +3,8 @@
 This repo is associated with the following article: 
 
 ```
-Analysis of backpack microphone recordings using *callsync*
+*callsync*: an R package for alignment and analysis of multi-microphone animal recordings
+
 ```
 
 **NOTE**: This repo is under development. Please contact <ssmeele@ab.mpg.de> if you want to test an early version. 
@@ -32,7 +33,7 @@ The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repositor
 
 Make sure your working directory is the main repo folder. This is automatically the case if you open the `project.Rproj` file and run everything from there.
 
-All steps can be sourced individually using the source botton in R Studio or by just running all the lines. `ANALYSIS/CODE/00_set_up.R` gets sourced from within all other scripts and takes care of the set-up. If you want to run the full pipeline you can also run:
+All steps can be sourced individually using the source button in RStudio or by just running all the lines. `ANALYSIS/CODE/00_set_up.R` gets sourced from within all other scripts and takes care of the set-up. If you want to run the full pipeline you can also run:
 
 ```
 files = list.files('ANALYSIS/CODE', pattern = '*R', full.names = T)
@@ -128,7 +129,7 @@ Platform: x86_64-apple-darwin17.0 (64-bit)
 
 Running under: macOS Catalina 10.15.7
 
-Packages: parallel,  stats, graphic, grDevice, utils, datasets, methods, base, callsync_0.0.0, scales_1.2.1, dplyr_1.0.10, stringr_1.4.1, tuneR_1.4.1, seewave_2.2.0 
+Packages: parallel,  stats, graphic, grDevice, utils, datasets, methods, base, callsync_0.0.5, scales_1.2.1, dplyr_1.0.10, stringr_1.4.1, tuneR_1.4.1, seewave_2.2.0 
 
 ------------------------------------------------
 # Maintainers and contact
