@@ -4,12 +4,13 @@ This repo is associated with the following article:
 
 ```
 *callsync*: an R package for alignment and analysis of multi-microphone animal recordings
-
+Simeon Q. Smeele, Stephen A. Tyndel, Barbara C. Klump, Gustavo Alarcon-Nieto, Lucy M. Aplin
+bioRxiv 2023.02.07.527470; doi: https://doi.org/10.1101/2023.02.07.527470
 ```
 
-**NOTE**: This repo is under development. Please contact <ssmeele@ab.mpg.de> if you want to test an early version. 
+The source code of *callsync* can be found in [this repository](https://github.com/simeonqs/callsync).
 
-------------------------------------------------
+
 # Requirements
 
 R version 4.1.0 or later. Earlier versions might work if you replace the `|>` function with `%>%`.
@@ -26,7 +27,7 @@ The GitHub repository is not complete. Data files and intermediate results are t
 * `ANALYSIS/RESULTS/SPCC`
 * `ANALYSIS/RESULTS/traces`
 
-------------------------------------------------
+
 # Workflow
 
 The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repository (<https://edmond.mpdl.mpg.de/privateurl.xhtml?token=05b4aa17-a9bd-44ac-b62b-bdf620aceebb>). Once these are place in the `ANALYSIS` folder everything should work.
@@ -42,7 +43,7 @@ for(file in files) source(file)
 
 This will source all scripts in the correct order. Some of the steps do take several hours, so it might be better to run steps individually at first. 
 
-------------------------------------------------
+
 # Meta data
 
 The `DATA` and `RESULTS` folders need to be downloaded from the Edmond repository (**LINK**). Once these are place in the `ANALYSIS` folder everything should work.
@@ -110,7 +111,7 @@ Other than the `ANALYSIS` folder the main folder also contains:
 
 - `bibliography.bib` contains all the reference in bibtex format
   
-- `manuscript.md` contains the manuscript in markdown format
+- `manuscript.md` contains the manuscript in markdown format, if opened in GitHub the formatting isn't working, should be compiled in RStudio to produce the pdf
   
 - `manuscript.pdf` the manuscript as pdf
 
@@ -120,7 +121,7 @@ Other than the `ANALYSIS` folder the main folder also contains:
   
 - `.gitignore` text file that contains all paths of files/folders that should not be tracked by git, these are `DATA` and `RESULTS` and some hidden files
 
-------------------------------------------------
+
 # Session info
 
 R version 4.2.1 (2022-06-23)
@@ -131,7 +132,7 @@ Running under: macOS Catalina 10.15.7
 
 Packages: parallel,  stats, graphic, grDevice, utils, datasets, methods, base, callsync_0.0.5, scales_1.2.1, dplyr_1.0.10, stringr_1.4.1, tuneR_1.4.1, seewave_2.2.0 
 
-------------------------------------------------
+
 # Maintainers and contact
 
 Please contact Simeon Q. Smeele, <ssmeele@ab.mpg.de>, if you have any questions or suggestions. 
