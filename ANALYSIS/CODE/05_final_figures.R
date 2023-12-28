@@ -142,8 +142,9 @@ load(path_spcc_results)
 
 # Run pco and plot
 umap_out = umap(m)
-inds = rownames(m) %>% strsplit('@') %>% sapply(`[`, 2) %>% as.factor %>% as.integer
+year = rownames(m) %>% strsplit('@') %>% sapply(`[`, 3) %>% 
+  strsplit('_') %>% sapply(`[`, 1) %>% as.factor %>% as.integer
 pdf(path_pdf_umap, 3.5, 4)
-plot(umap_out$layout, pch = as.numeric(inds), col = alpha(cols[as.numeric(inds)], 0.8),
+plot(umap_out$layout, pch = as.numeric(year), col = alpha(cols[as.numeric(year)], 0.8),
      xlab = 'dimension 1', ylab = 'dimension 2')
 dev.off()
