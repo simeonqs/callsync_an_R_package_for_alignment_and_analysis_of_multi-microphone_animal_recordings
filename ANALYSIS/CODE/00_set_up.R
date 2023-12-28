@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 14-11-2022
-# Date last modified: 27-11-2022
+# Date last modified: 19-12-2023
 # Author: Simeon Q. Smeele
 # Description: This script sets up the R environment for all other scripts. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -38,4 +38,4 @@ path_ground_truth_tables = 'ANALYSIS/DATA'
 path_perf = 'ANALYSIS/RESULTS/perfomance/performance.txt'
   
 # Colours
-cols = c('#d11141', '#00b159', '#00aedb', '#f37735', '#ffc425')
+cols = c('#d11141', '#00aedb', '#00b159', '#f37735', '#ffc425')
