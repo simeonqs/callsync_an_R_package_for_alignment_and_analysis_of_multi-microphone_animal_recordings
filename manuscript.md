@@ -181,7 +181,7 @@ traces = traces[keep]                                              # and these t
 
 A frequently used method to compare calls is to measure their similarity using spectrographic cross correlation (SPCC) [@cortopassi2000comparison], where two spectrograms are slid over each other and the pixelwise difference is computed for each step. At the point where the signals maximally overlap one will find the minimal difference. This score is then used as a measure of acoustic distance between two calls. The function `run.spcc` runs SPCC and includes several methods to reduce noise in the spectrogram before running cross correlation (for an example see Fig. 4b). To visualise the resulting feature vector from running SPCC on the cockatiel calls we used uniform manifold approximation and projection (UMAP) [@umap] which projects the results in two-dimensional space. Calls cluster very strongly by the two separate recording groups (2021 and 2022), giving some evidence of different vocal signatures (see Fig. 5). This is a very simple analysis, and we only included it to illustrate a potential use of the results from the previous steps.
 
-![Call distribution in uniform manifold approximation and projection space. Dots represents calls and are coloured by individual.](ANALYSIS/RESULTS/figures/umap.pdf)
+![Call distribution in uniform manifold approximation and projection space. Dots represents calls and are coloured by year.](ANALYSIS/RESULTS/figures/umap.pdf)
 
 # Discussion
 
