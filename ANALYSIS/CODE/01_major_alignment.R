@@ -23,7 +23,7 @@ wing = 10
 ffilter_from = NULL
 # ffilter_from = 200
 all_files = NULL
-# ll_files = list.files(path_recordings, pattern = '*wav', full.names = T, recursive = T)
+# all_files = list.files(path_recordings, pattern = '*wav', full.names = T, recursive = T)
 # all_files = all_files[str_detect(all_files, '2021_07_16-05_54_59')]
 save_log = TRUE
 

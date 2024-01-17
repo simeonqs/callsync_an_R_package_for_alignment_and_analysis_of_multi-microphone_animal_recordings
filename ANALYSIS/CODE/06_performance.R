@@ -1,7 +1,7 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Project: methods paper
 # Date started: 22-11-2022
-# Date last modified: 10-01-2023
+# Date last modified: 19-12-2023
 # Author: Simeon Q. Smeele
 # Description: This script compares the ground truth tables to the detections. 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -68,9 +68,11 @@ gt = gt[keep,]
 
 # Get the associated chunks to run automatic detection
 all_files = list.files(path_chunks, pattern = '*wav', full.names = T, recursive = T)
-path_ground_truth_chunks = all_files[(str_detect(all_files, '@120.wav') | str_detect(all_files, '@135.wav') |
-                                        str_detect(all_files, '@150.wav')) & 
-                                       str_detect(all_files, '2021_07_16-05_54_59')]
+path_ground_truth_chunks = all_files[(((str_detect(all_files, '@120.wav') | str_detect(all_files, '@135.wav') |
+                                          str_detect(all_files, '@150.wav')) & 
+                                         str_detect(all_files, '2021_07_16-05_54_59'))) |
+                                       (str_detect(all_files, '@45.wav') & 
+                                          str_detect(all_files, '2022_12_08-07_59_59'))]
 
 # Run detect and assign on ground truth chunks
 d = detect.and.assign(all_files = path_ground_truth_chunks,
