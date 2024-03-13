@@ -4,7 +4,7 @@ output:
   pdf_document:
     latex_engine: xelatex
 geometry: margin=2cm
-header-includes: \usepackage{fontspec} \setmainfont{Helvetica} \usepackage[symbol]{footmisc}
+header-includes: \usepackage{fontspec} \setmainfont{Nimbus Sans} \usepackage[symbol]{footmisc}
   \renewcommand{\thefootnote}{\fnsymbol{footnote}} \renewcommand{\topfraction}{.85}
   \renewcommand{\bottomfraction}{.7} \renewcommand{\textfraction}{.15} \renewcommand{\floatpagefraction}{.66}
   \setcounter{topnumber}{3} \setcounter{bottomnumber}{3} \setcounter{totalnumber}{4}
@@ -29,7 +29,7 @@ APPLICATION
 
 \
 
-Simeon Q. Smeele $^{1,2,3,4,†,*}$, Stephen A. Tyndel $^{1,3,†}$, Barbara C. Klump $^{1,8}$, Gustavo Alarcón-Nieto $^{1,3,5}$ & Lucy M. Aplin $^{1,6,7}$
+Simeon Q. Smeele $^{1,2,3,4,†,*}$, Stephen A. Tyndel $^{1,3,†}$, Barbara C. Klump $^{1,5}$, Gustavo Alarcón-Nieto $^{1,3,6}$ & Lucy M. Aplin $^{1,7,8}$
 
 \fontsize{7}{12}\selectfont
 
@@ -39,15 +39,15 @@ $^2$*Department of Human Behavior, Ecology and Culture, Max Planck Institute for
 
 $^3$*Department of Biology, University of Konstanz, Konstanz, Germany*
 
-$^4$*Department of Migration, Max Planck Institute of Animal Behavior, Radolfzell, Germany*
+$^4$*Department of Ecoscience, Aarhus University, Aarhus, Denmark*
 
-$^4$*Institute for Ecoscience, Aarhus University, Aarhus, Denmark*
+$^5$*Department of Behavioral and Cognitive Biology, University of Vienna, Vienna, Austria*
 
-$^6$*Department of Evolutionary Biology and Environmental Studies, University of Zurich, Zurich, Switzerland*
+$^6$*Department of Migration, Max Planck Institute of Animal Behavior, Radolfzell, Germany*
 
-$^7$*Division of Ecology and Evolution, Research School of Biology, The Australian National University, Canberra, Australia*
+$^7$*Department of Evolutionary Biology and Environmental Studies, University of Zurich, Zurich, Switzerland*
 
-$^8$*Department of Behavioral and Cognitive Biology, University of Vienna, Vienna, Austria*
+$^8$*Division of Ecology and Evolution, Research School of Biology, The Australian National University, Canberra, Australia*
 
 $^†$Co-first author
 
@@ -82,7 +82,15 @@ The primary target for use of this package are researchers that study animal com
 
 Current research packages that implement call alignment strategies are either used in Matlab [@malinka2020autonomous; @anisimov2014reconstruction] or c++ [@gill2015patterns]. However, these tools have not, up to now, been adapted for the R environment, a popular programming language among many animal behaviour and bioacoustic researchers. Many of these tools are not documented publicly nor open source, and can require high licensing fees (i.e., Matlab). While the design of our package is best suited to contexts where all microphones exist in the same spatial area, it is the goal that it can be adapted to other contexts. `callsync` is publicly available on CRAN and GitHub, is beginner friendly with strong documentation, and does not require extensive programming background. This open-source tool will allow researchers to expand the study of bioacoustics and solve an issue that impedes detailed analysis of group-level calls. 
 
-# Case study: cockatiel vocalisations
+# Generate example: Spring Peeper 
+
+We downloaded two Spring Peeper (Pseudacris crucifer) recordings from the Macaulay Library at the Cornell Lab of Ornithology (ML397067 and ML273028). Using these two recordings, we generated two artificial audio tracks, one drifted approximately 18 seconds from the other. Drift was simulated by inserting 0.03s of background noise every second in one of the tracks. Background noise for each track was the same, and constructed by concatenating random snippets of noise from each of the Macaulay Library recordings. The background noise was then amplified by 4dB.
+
+Both artificial tracks incorporated 10 calls from each Macaulay recording. The calls were arranged to simulate alternating calling behaviour between the two frogs. Using the *tuneR* package [@ligges2022package], we normalised the calls to simulate the presence of a focal individual, setting the focal calls to 85% and background calls to 55% of their maximum amplitude, inversely for each track.
+
+We then used `callsync` to align the tracks using 2 minute chunks, and showed that all detected calls were assigned to the correct individual. We also showed that the fundamental frequency could be correctly traced. For details see the vignette in the CRAN version of `callsync`.
+
+# Case study: cockatiels
 
 We present a case study to show how `callsync` functions can be included in a workflow (see Fig. 1). We used a dataset of domestic cockatiels (*Nymphicus hollandicus*). These birds are part of an ongoing study at the Max Planck Institute of Animal Behavior in Radolfzell, Germany. 30 birds were housed in five groups of six individuals, with each group of six housed separately in a 4x3x2.7m aviary facility. Each bird was fitted with a TS-systems EDIC-Mini E77 tag inside a sewn nylon backpack fitted via Teflon harness around the wings, with the total weight of all components under 7% of body weight (weight range of birds 85-120g). Audio recordings were scheduled to record for 4 hours per day. Each microphone was automatically programmed to turn on and off daily at the same time. For the purposes of demonstration, three full recording sessions (ca. four hours) were selected for processing where the microphones were scheduled to record starting at approximately sunrise (July 15th-16th, 2021 and December 08, 2022 ). Two of the recording sessions (2021) included manually played beeps in the background; one every hour at 10khz, one every 10 minutes at 0.4khz. This was done to ensure that the alignment would work both with and without external assistance, as some circumstances for research might allow such an inclusion, while others may prohibit it. Seven days after deployment, microphone recorders were removed and recordings were downloaded as .wav files directly onto a computer from the tag, according to the manufacturer protocols. Data from each microphone were placed into the appropriate folder (see workflow instructions) and processed in accordance with our package workflow. 
 
@@ -117,7 +125,7 @@ align(chunk_size = 15,                          # how long should the chunks be 
       save_log = TRUE)                          # should a csv file with alignment times be saved
 ```
 
-For cross correlation, the function `align` loads the chunks with additional minutes before and after (option `wing`) to ensure that overlap can be found. The cross correlation is performed using the function `simple.cc`, which takes two vectors (the binned energy content of two recordings) and calculates the absolute difference while sliding the two vectors over each other. It returns the position of minimum summed difference, or in other words, the position of maximal overlap. This position is then used to align the recordings relative to the first recording and save chunks that are maximally aligned. Note that due to drift during the recording, the start and end times might still be seconds off; it is the overall alignment of the chunks that is optimised. The function also allows the user to create a pdf document with waveforms of each individual recording and a single page per chunk (Fig. 2), to visually verify if alignment was successful. For our dataset all chunks but one aligned correctly without a filter. If this is not the case the option `ffilter_from` can be set to apply a high-pass filter to improve alignment. Mis-aligned chunks can also be rerun individually using the chunk size argument (argument chunk_seq) to avoid re-running the entire dataset. This was done for the case study as well (recording session from 16th July 2021, start time 15 minutes).
+For cross correlation, the function `align` loads the chunks with additional minutes before and after (option `wing`) to ensure that overlap can be found. The cross correlation is performed using the function `simple.cc`, which takes two vectors (the binned absolute amplitude of the two recordings) and calculates the absolute difference while sliding the two vectors over each other. It returns the position of minimum summed difference, or in other words, the position of maximal overlap. This position is then used to align the recordings relative to the first recording and save chunks that are maximally aligned. Note that due to drift during the recording, the start and end times might still be seconds off; it is the overall alignment of the chunks that is optimised. The function also allows the user to create a pdf document with waveforms of each individual recording and a single page per chunk (Fig. 2), to visually verify if alignment was successful. For our dataset all chunks but one aligned correctly without a filter. If this is not the case the option `ffilter_from` can be set to apply a high-pass filter to improve alignment. Mis-aligned chunks can also be rerun individually using the chunk size argument (argument chunk_seq) to avoid re-running the entire dataset. This was done for the case study as well (recording session from 16th July 2021, start time 15 minutes).
 
 ![Example of the alignment output. Olive-coloured lines represent the summed absolute amplitude per bin (= 0.5 seconds). Recordings are aligned relative to the first recording (which starts at 0). Note that recordings 2-5 initially started ~2 minutes earlier (purple arrow) but are now aligned. The title displays the start time of the chunk in the raw recording.](ANALYSIS/RESULTS/figures/alignment example - with arrow.png)
 
@@ -185,9 +193,9 @@ A frequently used method to compare calls is to measure their similarity using s
 
 # Discussion
 
-Here we detail our R package `callsync`, designed to take raw microphone recordings collected simultaneously from multiple individuals and align, extract and analyse their calls. We present a case study and workflow to demonstrate `callsync` in action on a dataset of 12 hours of recordings from two times six communally housed captive cockatiels. Each of the modular components (alignment, detection, assignment, tracing, and analysis) successfully achieved the stated goals in the cockatiel system. Misaligned audio tracks were accurately aligned in a first step (see Fig. 2), calls were correctly identified in the aligned recordings (see Fig. 3), the individual making the call was selected (see Fig. 3), and downstream data analysis was performed (Fig. 4, Fig. 5). `callsync` can perform alignment even on inter-microphone drift that constitutes minutes as well as handle unpredictable and non-linear drift patterns on different microphones. 
+Here we detail our R package `callsync`, designed to take raw microphone recordings collected simultaneously from multiple individuals and align, extract and analyse their calls. We present callsync performance on a computer generated dataset of 10 minutes of recording from two frogs and a case study of 12 hours of natural recordings from two times six communally housed captive cockatiels. Each of the modular components (alignment, detection, assignment, tracing, and analysis) successfully achieved the stated goals in both systems. In the computer generated dataset, no errors were made. In the case study, misaligned audio tracks were accurately aligned in a first step (see Fig. 2), calls were correctly identified in the aligned recordings (see Fig. 3), the individual making the call was selected (see Fig. 3), and downstream data analysis was performed (Fig. 4, Fig. 5). `callsync` can perform alignment even on inter-microphone drift that constitutes minutes as well as handle unpredictable and non-linear drift patterns on different microphones. 
 
-With tracks aligned to a few seconds and only six false positives, we are confident that `callsync` is a robust and useful tool for bioacoustics research. Additionally, the one false positive was actually a true positive; in this case because of a tiny difference in start and end time between the ground truth and automatic detection, which led the ground truth to be filtered out, but the automatic detection to stay. Overall, the true positive rate of our results was 81%, meaning that only 19% of the manually selected calls for ground truthing were not detected by the `call.detect` function. Where call rate across call types is important, researchers can set the threshold very low and manually remove false positives. Alternatively, a deep neural network can be used to sort signal from noise [@bergler2022animal]. 
+With tracks aligned to a few seconds and only six false positives in the case study, we are confident that `callsync` is a robust and useful tool for bioacoustics research. Additionally, one false positive was actually a true positive; in this case because of a tiny difference in start and end time between the ground truth and automatic detection, which led the ground truth to be filtered out, but the automatic detection to stay. Overall, the true positive rate of our results was 81%, meaning that only 19% of the manually selected calls for ground truthing were not detected by the `call.detect` function. Where call rate across call types is important, researchers can set the threshold very low and manually remove false positives. Alternatively, a deep neural network can be used to sort signal from noise [@bergler2022animal]. 
 
 A further possible challenge with the `call.detect` function could be that certain call types are never easily distinguishable from background noise. In these situations, `call.detect` is likely to pick up a significant amount of background noise in addition to calls. Function parameters can be adapted and should function on most call-types, as can post-processing thresholding. For example, machine learning approaches [@bergler2022animal; @cohen2022automated; @stowell2019automatic] or image recognition tools [@smith2020individual; @valletta2017applications] can be later applied to separate additionally detected noise in particular circumstances where an amplitude based thresholding approach is insufficient. As well, in specific cases (e.g., low amplitude calls), once the align function is performed, the entire `call.detect` function can be swapped out for deep learning call detection algorithms such as ANIMAL-SPOT [@bergler2022animal] or other signal processing approaches (e.g., *seewave* package).
 
@@ -222,6 +230,8 @@ All authors declare they have no competing interests.
 SQS: Conceptualization, Data Curation, Formal Analysis, Methodology, Project Administration, Software, Validation, Visualization, Writing – Original Draft Preparation, Writing – Review & Editing; SAT: Conceptualization, Data Curation, Investigation, Methodology, Project Administration, Validation, Writing – Original Draft Preparation, Writing – Review & Editing; BCK: Investigation, Supervision, Writing – Review & Editing; GAN: Investigation, Methodology, Writing – Review & Editing; LMA: Funding Acquisition, Resources, Supervision, Writing – Review & Editing.
 
 # References
+
+
 
 
 
