@@ -8,7 +8,7 @@ Simeon Q. Smeele, Stephen A. Tyndel, Barbara C. Klump, Gustavo Alarcon-Nieto, Lu
 bioRxiv 2023.02.07.527470; doi: https://doi.org/10.1101/2023.02.07.527470
 ```
 
-The source code of *callsync* can be found in [this repository](https://github.com/simeonqs/callsync).
+The source code of *callsync* and a vignette can be found in [this repository](https://github.com/simeonqs/callsync).
 
 
 # Requirements
