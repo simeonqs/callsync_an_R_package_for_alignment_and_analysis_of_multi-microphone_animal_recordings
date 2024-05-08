@@ -146,5 +146,8 @@ year = rownames(m) %>% strsplit('@') %>% sapply(`[`, 3) %>%
   strsplit('_') %>% sapply(`[`, 1) %>% as.factor %>% as.integer
 pdf(path_pdf_umap, 3.5, 4)
 plot(umap_out$layout, pch = as.numeric(year), col = alpha(cols[as.numeric(year)], 0.8),
-     xlab = 'dimension 1', ylab = 'dimension 2')
+     xlab = 'Dimension 1', ylab = 'Dimension 2', xaxt = 'n', yaxt = 'n',
+     xlim = c(-6, 6), ylim = c(-6.5, 7))
+axis(1, c(-6, -3, 0, 3, 6))
+axis(2, c(-6, -3, 0, 3, 6))
 dev.off()
