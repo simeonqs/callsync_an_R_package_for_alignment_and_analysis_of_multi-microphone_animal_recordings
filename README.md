@@ -3,9 +3,7 @@
 This repo is associated with the following article: 
 
 ```
-*callsync*: an R package for alignment and analysis of multi-microphone animal recordings
-Simeon Q. Smeele, Stephen A. Tyndel, Barbara C. Klump, Gustavo Alarcon-Nieto, Lucy M. Aplin
-bioRxiv 2023.02.07.527470; doi: https://doi.org/10.1101/2023.02.07.527470
+Smeele, S. Q., Tyndel, S. A., Klump,B. C., Alarcón-Nieto, G., & Aplin, L. M. (2024). callsync: An Rpackage for alignment and analysis of multi-microphoneanimal recordings. Ecology and Evolution, 14, e11384. https://doi.org/10.1002/ece3.11384
 ```
 
 The source code of *callsync* and a vignette can be found in [this repository](https://github.com/simeonqs/callsync).
